@@ -133,4 +133,23 @@ public:
             }
         }
     }
+
+    Node* getHead() {
+        return head;
+    }
+
+    // find function
+    bool find(const T& value) {
+        if (head == nullptr) {
+            return false;
+        }
+        Node* current = head;
+        while (current != nullptr) {
+            if (current->data == value) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
 };

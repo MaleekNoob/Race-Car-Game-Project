@@ -9,13 +9,6 @@ int main() {
     cin >> columns;
     maze.generateMaze(rows, columns);
     maze.displayMaze();
-    // int choice;
-    // cout << "1. Manual Mode\n2. Automatic Mode\nEnter your choice: ";
-    // cin >> choice;
-
-    // if (choice == 1) {
-
-    // }
 
     return 0;
 }

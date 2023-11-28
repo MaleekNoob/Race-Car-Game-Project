@@ -86,7 +86,7 @@ public:
         return current->data;
     }
 
-    const T& back() const {
+    const T& end() const {
         Node* current = head;
         while (current->next != nullptr) {
             current = current->next;
@@ -151,5 +151,14 @@ public:
             current = current->next;
         }
         return false;
+    }
+
+    void display() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
     }
 };

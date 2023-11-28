@@ -30,6 +30,10 @@ public:
         Obstacle = false;
     }
 
+    void displayNeighbors() {
+        neighbors.display();
+    }
+
     void addNeighbor(GraphNode* node) {
         neighbors.push_back(node);
     }

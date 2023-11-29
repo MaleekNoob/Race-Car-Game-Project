@@ -11,7 +11,18 @@
 #define CYAN "\033[36m"
 #define WHITE "\033[37m"
 
-class Maze {
+// ANSI escape codes for text colors
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
+
+class Maze
+{
     int width;
     int length;
     GraphNode** maze;
@@ -28,24 +39,16 @@ public:
         width = x;
         length = y;
         maze = new GraphNode * [y];
-        for (int i = 0; i < y; i++) {
+        for (int i = 0; i < y; i++)
+        {
             maze[i] = new GraphNode[x];
         }
-        for (int j = 0; j < length; j++) {
+        for (int j = 0; j < length; j++)
+        {
             for (int i = 0; i < width; i++)
             {
                 maze[i][j] = GraphNode(i, j);
                 makeEdges(maze[i][j]);
-
-                if (distribution(gen) == 1) {
-                    maze[i][j].setObstacle(true);
-                }
-                else if (distribution(gen) == 2) {
-                    maze[i][j].setBoost(true);
-                }
-                else {
-                    /* do nothing */
-                }
             }
         }
 
@@ -54,7 +57,8 @@ public:
         maze[width - 1][length - 1].setGoal(true);
     }
 
-    void makeEdges(GraphNode& node) {
+    void makeEdges(GraphNode& node)
+    {
         // Seed the random number generator with a time-based seed
         random_device rd;
         mt19937 gen(rd());
@@ -77,7 +81,8 @@ public:
         }
     }
 
-    GraphNode** getMaze() {
+    GraphNode** getMaze()
+    {
         return maze;
     }
 
@@ -108,18 +113,20 @@ public:
                     cout << " 0 ";
                 }
                 Node<GraphNode *>* traverse = maze[i][j].getNeighbors();
-                if (traverse == nullptr) {
+                if (traverse == nullptr)
+                {
                     cout << "     ";
                 }
-                while (traverse != nullptr) {
-                    
-                    
-                    if (traverse->data->getX() == i + 1 && traverse->data->getY() == j) {
+                while (traverse != nullptr)
+                {
+                    if (traverse->data->getX() == i + 1 && traverse->data->getY() == j)
+                    {
                         cout << "-----";
                         horizontal = true;
                         break;
                     }
-                    if (traverse->next == nullptr) {
+                    if (traverse->next == nullptr)
+                    {
                         cout << "     ";
                     }
                     traverse = traverse->next;
@@ -134,7 +141,8 @@ public:
                 }
 
                 Node<GraphNode *> *traverse = maze[j][r].getNeighbors();
-                if (traverse == nullptr) {
+                if (traverse == nullptr)
+                {
                     cout << "   " << "\t";
                 }
                 while (traverse != nullptr) {
@@ -144,7 +152,8 @@ public:
                         vertical = true;
                         break;
                     }
-                    if (traverse->next == nullptr) {
+                    if (traverse->next == nullptr)
+                    {
                         cout << "   " << "\t";
                     }
                     traverse = traverse->next;
@@ -169,14 +178,15 @@ public:
         // }
     }
 
-    void addEdge(GraphNode* node1, GraphNode* node2) {
+    void addEdge(GraphNode* node1, GraphNode* node2)
+    {
         node1->addNeighbor(node2);
         node2->addNeighbor(node1);
     }
 
-    void addEdge(int x1, int y1, int x2, int y2) {
+    void addEdge(int x1, int y1, int x2, int y2)
+    {
         maze[x1][y1].addNeighbor(&maze[x2][y2]);
         maze[x2][y2].addNeighbor(&maze[x1][y1]);
     }
-
 };

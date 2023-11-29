@@ -1,6 +1,7 @@
 #include "List.h"
 
-class GraphNode {
+class GraphNode
+{
     int x;
     int y;
     List<GraphNode*> neighbors; /* list to store GraphNode's neighbors */
@@ -11,7 +12,8 @@ class GraphNode {
     bool boost;
 
 public:
-    GraphNode() {
+    GraphNode()
+    {
         x = -1;
         y = -1;
         neighbors = List<GraphNode*>();
@@ -21,7 +23,8 @@ public:
         Obstacle = false;
     }
 
-    GraphNode(int x, int y) {
+    GraphNode(int x, int y)
+    {
         this->x = x;
         this->y = y;
         neighbors = List<GraphNode*>();
@@ -31,59 +34,72 @@ public:
         Obstacle = false;
     }
 
-    void displayNeighbors() {
+    void displayNeighbors()
+    {
         neighbors.display();
     }
 
-    void addNeighbor(GraphNode* node) {
+    void addNeighbor(GraphNode* node)
+    {
         neighbors.push_back(node);
     }
 
-    void removeNeighbor(GraphNode* node) {
+    void removeNeighbor(GraphNode* node)
+    {
         neighbors.remove(node);
     }
-
-    int getX() {
+    //getters and setters
+    int getX()
+    {
         return x;
     }
-
-    int getY() {
+    int getY()
+    {
         return y;
     }
 
-    bool isSame(int x, int y) {
+    bool isSame(int x, int y)
+    {
         return this->x == x && this->y == y;
     }
 
-    bool isObstacle() {
+    bool isObstacle()
+    {
         return Obstacle;
     }
 
-    void setObstacle(bool isObstacle) {
+    void setObstacle(bool isObstacle)
+    {
         Obstacle = isObstacle;
     }
 
-    bool isCar() {
+    bool isCar()
+    {
         return Car;
     }
 
-    void setCar(bool isCar) {
+    void setCar(bool isCar)
+    {
         Car = isCar;
     }
 
-    bool isGoal() {
+    bool isGoal()
+    {
         return Goal;
     }
 
-    void setGoal(bool isGoal) {
+    void setGoal(bool isGoal)
+    {
         Goal = isGoal;
     }
 
-    bool isStart() {
+    bool isStart()
+    {
         return Start;
     }
 
-    void setStart(bool isStart) {
+    void setStart(bool isStart)
+    {
         Start = isStart;
     }
 
@@ -95,13 +111,21 @@ public:
         boost = isBoost;
     }
 
-    Node<GraphNode*>* getNeighbors() {
+    bool isBoost() {
+        return boost;
+    }
+
+    void setBoost(bool isBoost) {
+        boost = isBoost;
+    }
+
+    Node<GraphNode*>* getNeighbors()
+    {
         return neighbors.getHead();
     }
 
-    bool operator==(GraphNode& node) {
+    bool operator==(GraphNode& node)
+    {
         return x == node.getX() && y == node.getY();
     }
-
-    // find
 };

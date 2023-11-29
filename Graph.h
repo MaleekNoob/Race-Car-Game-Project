@@ -1,4 +1,6 @@
 #include "GraphNode.h"
+#include "Stack.h"
+
 #include <random>
 #include <conio.h>
 #include <cstdlib>
@@ -259,6 +261,33 @@ public:
 
             displayMaze();
         }
+    }
+
+    bool pathExists()
+    {
+        Stack<GraphNode*> stack;
+        stack.push(&maze[0][0]);
+        maze[0][0].setVisited(true);
+        while (!stack.isEmpty())
+        {
+            GraphNode* node = stack.peek();
+            stack.pop();
+            if (node == &maze[width - 1][length - 1])
+            {
+                return true;
+            }
+            Node<GraphNode*>* traverse = node->getNeighbors();
+            while (traverse != nullptr)
+            {
+                if (!traverse->data->isVisited())
+                {
+                    stack.push(traverse->data);
+                    traverse->data->setVisited(true);
+                }
+                traverse = traverse->next;
+            }
+        }
+        return false;
     }
 
 };

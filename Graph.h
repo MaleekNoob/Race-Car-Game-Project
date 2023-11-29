@@ -1,5 +1,5 @@
 #include "GraphNode.h"
-#include <cstdlib>
+#include <random>
 
 class Maze
 {
@@ -29,17 +29,22 @@ public:
 
     void makeEdges(GraphNode& node)
     {
+        // Seed the random number generator with a time-based seed
+        random_device rd;
+        mt19937 gen(rd());
+
+        // Create a uniform distribution for integers in the specified range
+        uniform_int_distribution<int> distribution(0, 2);
+
         int x = node.getX();
         int y = node.getY();
         if (x < width - 1) {
-            if (rand() % 2 == 1)
-            {
+            if (distribution(gen) == 1 || distribution(gen) == 2) {
                 addEdge(&node, &maze[x + 1][y]);
             }
         }
-        if (y < length - 1)
-        {
-            if (rand() % 2 == 1)
+        if (y < length - 1) {
+            if (distribution(gen) == 1 || distribution(gen) == 2)
             {
                 addEdge(&node, &maze[x][y + 1]);
             }
@@ -87,15 +92,17 @@ public:
             cout << endl;
             
             
-            for (int r = 0; r < width; r++)
-            {
+            for (int r = 0; r < width; r++) {
+                if (j == length - 1) {
+                    break;
+                }
+
                 Node<GraphNode *> *traverse = maze[j][r].getNeighbors();
                 if (traverse == nullptr)
                 {
                     cout << "   " << "\t";
                 }
-                while (traverse != nullptr)
-                {
+                while (traverse != nullptr) {
                     if (traverse->data->getX() == j && traverse->data->getY() == r + 1)
                     {
                         cout << " | " << "\t";

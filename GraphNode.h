@@ -111,14 +111,6 @@ public:
         boost = isBoost;
     }
 
-    bool isBoost() {
-        return boost;
-    }
-
-    void setBoost(bool isBoost) {
-        boost = isBoost;
-    }
-
     Node<GraphNode*>* getNeighbors()
     {
         return neighbors.getHead();

@@ -211,6 +211,7 @@ public:
 
 void logo()
 {
+    cout << endl << endl;
     cout << " _______ _______  ______       ______ _______ _______ _______" << endl;
     cout << " |       |_____| |_____/      |  ____ |_____| |  |  | |______" << endl;
     cout << " |_____  |     | |    \\_      |_____| |     | |  |  | |______" << endl;
@@ -232,4 +233,21 @@ void modes()
     cout << "1. Manual Mode" << endl;
     cout << "2. Automatic Mode" << endl;
     cout << "3. Return" << endl;
+}
+
+void instructions()
+{
+    cout << "Instructions" << endl;
+    cout << "Start: S" << endl;
+    cout << "Goal: G" << endl;
+    cout << "Obstacle: O" << endl;
+    cout << "Boost: B" << endl;
+    cout << "Car: C" << endl;
+    cout << "Turn: +" << endl;
+    cout << "Path: - / |" << endl;
+    cout << "Up: W" << endl;
+    cout << "Down: S" << endl;
+    cout << "Left: A" << endl;
+    cout << "Right: D" << endl;
+    cout << "Press E to exit!" << endl;
 }

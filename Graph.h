@@ -105,7 +105,7 @@ public:
                     cout << BLUE << " B " << RESET;
                 }
                 else {
-                    cout << " 0 ";
+                    cout << " + ";
                 }
                 Node<GraphNode *>* traverse = maze[i][j].getNeighbors();
                 if (traverse == nullptr) {

@@ -17,6 +17,7 @@ int main()
         menu();
         cout << "Enter your choice: ";
         cin >> choice;
+        cout << endl;
         switch (choice)
         {
         case '1':
@@ -32,7 +33,7 @@ int main()
                 {
                 case '1':
                     cout << "You chose to play the manual mode!" << endl;
-                    
+
                     Maze maze;
                     int rows, columns;
                     cout << endl << "Enter the number of rows: ";
@@ -58,6 +59,21 @@ int main()
             break;
         case '2':
             cout << "You chose to see the instructions!" << endl;
+            instructions();
+            char instructions;
+            do
+            {
+                cin >> instructions;
+                switch (instructions)
+                {
+                    case 'E':
+                        cout << "You chose to exit the instructions!" << endl;
+                        break;
+                    default:
+                        cout << "Invalid choice!" << endl;
+                        break;
+                }
+            } while (instructions != 'E');
             break; 
         case '3':
             cout << "You chose to exit the game!" << endl;

@@ -206,3 +206,21 @@ public:
         return;
     }
 };
+
+
+void logo()
+{
+    cout << " _______ _______  ______       ______ _______ _______ _______" << endl;
+    cout << " |       |_____| |_____/      |  ____ |_____| |  |  | |______" << endl;
+    cout << " |_____  |     | |    \\_      |_____| |     | |  |  | |______" << endl;
+    cout << endl << endl;
+
+}
+
+void modes()
+{
+    cout << "Modes" << endl;
+    cout << "1. Manual" << endl;
+    cout << "2. Automatic" << endl;
+
+}

@@ -58,7 +58,7 @@ int main()
                     do
                     {
                         maze.generateMaze(rows, columns);
-                        maze.displayMaze();
+                        // maze.displayMaze();
                     } while (!maze.pathExists());
                     maze.displayMaze();
                     break;

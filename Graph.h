@@ -182,30 +182,42 @@ public:
     }
 
     bool pathExists()
+{
+    Stack<GraphNode*> stack;
+    stack.push(&maze[0][0]);
+    maze[0][0].setVisited(true);
+
+    while (!stack.isEmpty())
     {
-        Stack<GraphNode*> stack;
-        stack.push(&maze[0][0]);
-        maze[0][0].setVisited(true);
-        while (!stack.isEmpty())
+        GraphNode* node = stack.peek();
+        if (node == &maze[width - 1][length - 1])
         {
-            GraphNode* node = stack.peek();
-            stack.pop();
-            if (node == &maze[width - 1][length - 1])
-            {
-                return true;
-            }
-            Node<GraphNode*>* traverse = node->getNeighbors();
-            while (traverse != nullptr)
-            {
-                if (!traverse->data->isVisited())
-                {
-                    stack.push(traverse->data);
-                    traverse->data->setVisited(true);
-                }
-                traverse = traverse->next;
-            }
+            return true;
         }
-        return false;
+
+        Node<GraphNode*>* traverse = node->getNeighbors();
+        bool hasUnvisitedNeighbor = false;
+
+        while (traverse != nullptr)
+        {
+            if (!traverse->data->isVisited())
+            {
+                stack.push(traverse->data);
+                traverse->data->setVisited(true);
+                hasUnvisitedNeighbor = true;
+                break;  // Exit the loop after pushing the first unvisited neighbor
+            }
+            traverse = traverse->next;
+        }
+
+        if (!hasUnvisitedNeighbor)
+        {
+            stack.pop();  // Pop the node only if all neighbors are visited
+        }
     }
+
+    return false;
+}
+
 
 };

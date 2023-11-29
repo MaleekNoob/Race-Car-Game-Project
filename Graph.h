@@ -1,5 +1,7 @@
 #include "GraphNode.h"
 #include <random>
+#include <conio.h>
+#include <cstdlib>
 
 // ANSI escape codes for text colors
 #define RESET "\033[0m"
@@ -60,25 +62,21 @@ public:
         mt19937 gen(rd());
 
         // Create a uniform distribution for integers in the specified range
-        uniform_int_distribution<int> distribution(0, 3);
+        uniform_int_distribution<int> distribution(0, 4);
 
         int x = node.getX();
         int y = node.getY();
         if (x < width - 1) {
-            if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3) {
+            if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3 || distribution(gen) == 4) {
                 addEdge(&node, &maze[x + 1][y]);
             }
         }
         if (y < length - 1) {
-            if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3)
+            if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3 || distribution(gen) == 4)
             {
                 addEdge(&node, &maze[x][y + 1]);
             }
         }
-    }
-
-    GraphNode** getMaze() {
-        return maze;
     }
 
     void displayMaze()
@@ -174,9 +172,93 @@ public:
         node2->addNeighbor(node1);
     }
 
-    void addEdge(int x1, int y1, int x2, int y2) {
-        maze[x1][y1].addNeighbor(&maze[x2][y2]);
-        maze[x2][y2].addNeighbor(&maze[x1][y1]);
+    GraphNode* getCarNode() {
+        for (int j = 0; j < length; j++) {
+            for (int i = 0; i < width; i++)
+            {
+                if (maze[i][j].isCar()) {
+                    return &maze[i][j];
+                }
+            }
+        }
+        return nullptr;
+    }
+
+    void manualMode() {
+        char key;
+        while (true)
+        {
+            GraphNode* carNode = getCarNode();
+            // Display carNode neighbors
+            cout << endl << "Neighbors: ";
+            Node<GraphNode *> *neighbors = carNode->getNeighbors();
+            while (neighbors != nullptr)
+            {
+                cout << "(" << neighbors->data->getX() << ", " << neighbors->data->getY() << ") ";
+                neighbors = neighbors->next;
+            }
+            key = _getch(); // Get the pressed key
+            system("cls");
+
+            // Print the ASCII value of the pressed key
+            if (key == 72)
+            {
+                /* Up key */
+                Node<GraphNode*>* neighbors = carNode->getNeighbors();
+                while (neighbors != nullptr) {
+                    if (neighbors->data->getY() == carNode->getY() - 1) {
+                        carNode->setCar(false);
+                        neighbors->data->setCar(true);
+                        break;
+                    }
+                    neighbors = neighbors->next;
+                }
+            }
+            else if (key == 75)
+            {    
+                /* Left key */
+                Node<GraphNode*>* neighbors = carNode->getNeighbors();
+                while (neighbors != nullptr) {
+                    if (neighbors->data->getX() == carNode->getX() - 1) {
+                        carNode->setCar(false);
+                        neighbors->data->setCar(true);
+                        break;
+                    }
+                    neighbors = neighbors->next;
+                }
+            }
+            else if (key == 77)
+            {
+                /* Right key */
+                Node<GraphNode*>* neighbors = carNode->getNeighbors();
+                while (neighbors != nullptr) {
+                    if (neighbors->data->getX() == carNode->getX() + 1) {
+                        carNode->setCar(false);
+                        neighbors->data->setCar(true);
+                        break;
+                    }
+                    neighbors = neighbors->next;
+                }
+            }
+            else if (key == 80)
+            {
+                /* Down key */
+                Node<GraphNode*>* neighbors = carNode->getNeighbors();
+                while (neighbors != nullptr) {
+                    if (neighbors->data->getY() == carNode->getY() + 1) {
+                        carNode->setCar(false);
+                        neighbors->data->setCar(true);
+                        break;
+                    }
+                    neighbors = neighbors->next;
+                }
+            }
+
+            if (key == 27) // If the Esc key is pressed, exit the loop
+                break;
+
+            displayMaze();
+        }
     }
 
 };

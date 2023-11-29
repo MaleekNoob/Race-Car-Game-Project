@@ -11,7 +11,7 @@ int main()
     logo();
     modes();
 
-    sleep(2);
+    // sleep(2);
 
     Maze maze;
     int rows, columns;
@@ -21,6 +21,7 @@ int main()
     cin >> columns;
     maze.generateMaze(rows, columns);
     maze.displayMaze();
+    maze.manualMode();
 
     return 0;
 }

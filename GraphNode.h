@@ -86,8 +86,8 @@ public:
         Start = isStart;
     }
 
-    List<GraphNode*> getNeighbors() {
-        return neighbors;
+    Node<GraphNode*>* getNeighbors() {
+        return neighbors.getHead();
     }
 
     bool operator==(GraphNode& node) {

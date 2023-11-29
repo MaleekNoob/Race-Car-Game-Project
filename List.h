@@ -2,16 +2,20 @@
 #include <string>
 using namespace std;
 
+template <class T>
+struct Node
+{
+    T data;
+    Node *next;
+    Node() : data(NULL), next(nullptr) {}
+    Node(const T &value) : data(value), next(nullptr) {}
+};
+
 template <typename T>
 class List {
 private:
-    struct Node {
-        T data;
-        Node* next;
-        Node(const T& value) : data(value), next(nullptr) {}
-    };
 
-    Node* head;
+    Node<T>* head;
     int size;
 
 public:
@@ -22,18 +26,18 @@ public:
     }
 
     void push_front(const T& value) {
-        Node* newNode = new Node(value);
+        Node<T>* newNode = new Node(value);
         newNode->next = head;
         head = newNode;
         size++;
     }
 
     void push_back(const T& value) {
-        Node* newNode = new Node(value);
+        Node<T>* newNode = new Node(value);
         if (head == nullptr) {
             head = newNode;
         } else {
-            Node* current = head;
+            Node<T>* current = head;
             while (current->next != nullptr) {
                 current = current->next;
             }
@@ -46,7 +50,7 @@ public:
         if (head == nullptr) {
             return;
         }
-        Node* temp = head;
+        Node<T> temp = head;
         head = head->next;
         delete temp;
         size--;
@@ -60,7 +64,7 @@ public:
             delete head;
             head = nullptr;
         } else {
-            Node* current = head;
+            Node<T> current = head;
             while (current->next->next != nullptr) {
                 current = current->next;
             }
@@ -79,7 +83,7 @@ public:
     }
 
     T& back() {
-        Node* current = head;
+        Node<T>* current = head;
         while (current->next != nullptr) {
             current = current->next;
         }
@@ -87,7 +91,7 @@ public:
     }
 
     const T& end() const {
-        Node* current = head;
+        Node<T>* current = head;
         while (current->next != nullptr) {
             current = current->next;
         }
@@ -104,7 +108,7 @@ public:
 
     void clear() {
         while (head != nullptr) {
-            Node* temp = head;
+            Node<T>* temp = head;
             head = head->next;
             delete temp;
         }
@@ -116,17 +120,17 @@ public:
             return;
         }
         if (head->data == value) {
-            Node* temp = head;
+            Node<T>* temp = head;
             head = head->next;
             delete temp;
             size--;
         } else {
-            Node* current = head;
+            Node<T>* current = head;
             while (current->next != nullptr && current->next->data != value) {
                 current = current->next;
             }
             if (current->next != nullptr) {
-                Node* temp = current->next;
+                Node<T>* temp = current->next;
                 current->next = current->next->next;
                 delete temp;
                 size--;
@@ -134,16 +138,16 @@ public:
         }
     }
 
-    Node* getHead() {
+    Node<T>* getHead() {
         return head;
     }
 
     // find function
-    bool find(const T& value) {
+    bool find( T value) {
         if (head == nullptr) {
             return false;
         }
-        Node* current = head;
+        Node<T>* current = head;
         while (current != nullptr) {
             if (current->data == value) {
                 return true;
@@ -154,11 +158,11 @@ public:
     }
 
     void display() {
-        Node* current = head;
-        while (current != nullptr) {
-            cout << current->data << " ";
+        Node<T>* current = head;
+        for (int i = 0; current != nullptr; i++) {
+            cout << "   " << current->data ;
             current = current->next;
         }
-        cout << endl;
+        return;
     }
 };

@@ -44,35 +44,55 @@ public:
 
         void displayMaze()
         {
+            bool horizontal;
+            bool vertical;
             for (int j = 0; j < length; j++)
             {
+                horizontal = false;
+                vertical = false;
+                
+                
                 for (int i = 0; i < width; i++)
                 {
                     cout << maze[i][j].getX() << "," << maze[i][j].getY();
-                    if (maze[i][j].getNeighbors().find(&maze[i + 1][j])) {
-                        cout << "-----";
+                    Node<GraphNode *>* traverse = maze[i][j].getNeighbors();
+                    while (traverse != nullptr) {
+                        
+                        
+                        if (traverse->data->getX() == i + 1 && traverse->data->getY() == j) {
+                            cout << "-----";
+                            horizontal = true;
+                            break;
+                        }
+                        if (traverse->next == nullptr) {
+                            cout << "     ";
+                        }
+                        traverse = traverse->next;
                     }
-                    else {
-                        cout << "\t";
-                    }
-
                 }
                 cout << endl;
-                for (int k = 0; k < 2; k++) {
-                    for (int r = 0; r < width; r++) {
-                        cout << " | " << "\t";
-                        // cout << "Checking " << r << "," << j << " and " << r << "," << j + 1 << endl;
-                        // maze[r][j].getNeighbors().display();
-
-                        // if (maze[r][j].getNeighbors().find(&maze[r][j + 1])) {
-                        //     cout << " | " << "\t";
-                        // }
-                        // else {
-                        //     cout << "   " << "\t";
-                        // }
+                
+                
+                for (int r = 0; r < width; r++) {
+                    Node<GraphNode *> *traverse = maze[j][r].getNeighbors();
+                    while (traverse != nullptr) {
+                        
+                        
+                        if (traverse->data->getX() == j && traverse->data->getY() == r + 1)
+                        {
+                            cout << " | " << "\t";
+                            vertical = true;
+                            break;
+                        }
+                        if (traverse->next == nullptr) {
+                            cout << "   " << "\t";
+                        }
+                        traverse = traverse->next;
                     }
-                    cout << endl;
                 }
+                cout << endl;
+                
+                
             }
         }
 

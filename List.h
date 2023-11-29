@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -212,12 +214,18 @@ public:
 void logo()
 {
     cout << endl << endl;
-    cout << " _______ _______  ______       ______ _______ _______ _______" << endl;
-    cout << " |       |_____| |_____/      |  ____ |_____| |  |  | |______" << endl;
-    cout << " |_____  |     | |    \\_      |_____| |     | |  |  | |______" << endl;
+    string line1 = " _______ _______  ______       ______ _______ _______ _______";
+    string line2 = " |       |_____| |_____/      |  ____ |_____| |  |  | |______";
+    string line3 = " |_____  |     | |    \\_      |_____| |     | |  |  | |______";
+    cout << line1 << endl;
+    this_thread::sleep_for(chrono::milliseconds(300));
+    cout << line2 << endl;
+    this_thread::sleep_for(chrono::milliseconds(300));
+    cout << line3 << endl;
+    this_thread::sleep_for(chrono::milliseconds(300));
     cout << endl << endl;
-
 }
+
 
 void menu()
 {

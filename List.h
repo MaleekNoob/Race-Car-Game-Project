@@ -12,7 +12,8 @@ struct Node
 };
 
 template <typename T>
-class List {
+class List
+{
 private:
 
     Node<T>* head;
@@ -21,24 +22,31 @@ private:
 public:
     List() : head(nullptr), size(0) {}
 
-    ~List() {
+    ~List()
+    {
         clear();
     }
 
-    void push_front(const T& value) {
+    void push_front(const T& value)
+    {
         Node<T>* newNode = new Node(value);
         newNode->next = head;
         head = newNode;
         size++;
     }
 
-    void push_back(const T& value) {
+    void push_back(const T& value)
+    {
         Node<T>* newNode = new Node(value);
-        if (head == nullptr) {
+        if (head == nullptr)
+        {
             head = newNode;
-        } else {
+        }
+        else
+        {
             Node<T>* current = head;
-            while (current->next != nullptr) {
+            while (current->next != nullptr)
+            {
                 current = current->next;
             }
             current->next = newNode;
@@ -46,8 +54,10 @@ public:
         size++;
     }
 
-    void pop_front() {
-        if (head == nullptr) {
+    void pop_front()
+    {
+        if (head == nullptr)
+        {
             return;
         }
         Node<T> temp = head;
@@ -56,16 +66,22 @@ public:
         size--;
     }
 
-    void pop_back() {
-        if (head == nullptr) {
+    void pop_back()
+    {
+        if (head == nullptr)
+        {
             return;
         }
-        if (head->next == nullptr) {
+        if (head->next == nullptr)
+        {
             delete head;
             head = nullptr;
-        } else {
+        }
+        else
+        {
             Node<T> current = head;
-            while (current->next->next != nullptr) {
+            while (current->next->next != nullptr)
+            {
                 current = current->next;
             }
             delete current->next;
@@ -74,40 +90,50 @@ public:
         size--;
     }
 
-    T& front() {
+    T& front()
+    {
         return head->data;
     }
 
-    const T& front() const {
+    const T& front() const
+    {
         return head->data;
     }
 
-    T& back() {
+    T& back()
+    {
         Node<T>* current = head;
-        while (current->next != nullptr) {
+        while (current->next != nullptr)
+        {
             current = current->next;
         }
         return current->data;
     }
 
-    const T& end() const {
+    const T& end() const
+    {
         Node<T>* current = head;
-        while (current->next != nullptr) {
+        while (current->next != nullptr)
+        {
             current = current->next;
         }
         return current->data;
     }
 
-    int getSize() const {
+    int getSize() const
+    {
         return size;
     }
 
-    bool empty() const {
+    bool empty() const
+    {
         return size == 0;
     }
 
-    void clear() {
-        while (head != nullptr) {
+    void clear()
+    {
+        while (head != nullptr)
+        {
             Node<T>* temp = head;
             head = head->next;
             delete temp;
@@ -115,21 +141,28 @@ public:
         size = 0;
     }
 
-    void remove(const T& value) {
-        if (head == nullptr) {
+    void remove(const T& value)
+    {
+        if (head == nullptr)
+        {
             return;
         }
-        if (head->data == value) {
+        if (head->data == value)
+        {
             Node<T>* temp = head;
             head = head->next;
             delete temp;
             size--;
-        } else {
+        }
+        else
+        {
             Node<T>* current = head;
-            while (current->next != nullptr && current->next->data != value) {
+            while (current->next != nullptr && current->next->data != value)
+            {
                 current = current->next;
             }
-            if (current->next != nullptr) {
+            if (current->next != nullptr)
+            {
                 Node<T>* temp = current->next;
                 current->next = current->next->next;
                 delete temp;
@@ -138,18 +171,23 @@ public:
         }
     }
 
-    Node<T>* getHead() {
+    Node<T>* getHead()
+    {
         return head;
     }
 
     // find function
-    bool find( T value) {
-        if (head == nullptr) {
+    bool find( T value)
+    {
+        if (head == nullptr)
+        {
             return false;
         }
         Node<T>* current = head;
-        while (current != nullptr) {
-            if (current->data == value) {
+        while (current != nullptr)
+        {
+            if (current->data == value)
+            {
                 return true;
             }
             current = current->next;
@@ -157,9 +195,11 @@ public:
         return false;
     }
 
-    void display() {
+    void display()
+    {
         Node<T>* current = head;
-        for (int i = 0; current != nullptr; i++) {
+        for (int i = 0; current != nullptr; i++)
+        {
             cout << "   " << current->data ;
             current = current->next;
         }

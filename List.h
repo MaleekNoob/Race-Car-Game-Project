@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 template <class T>
@@ -223,4 +224,12 @@ void menu()
     cout << "1. Start Game" << endl;
     cout << "2. Instructions" << endl;
     cout << "3. Exit" << endl;
+}
+
+void modes()
+{
+    cout << "Modes" << endl;
+    cout << "1. Manual Mode" << endl;
+    cout << "2. Automatic Mode" << endl;
+    cout << "3. Return" << endl;
 }

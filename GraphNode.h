@@ -8,6 +8,7 @@ class GraphNode {
     bool Goal; /* true if this Node is the goal */
     bool Start; /* true if this Node is the start */
     bool Obstacle; /* true if this Node is an obstacle */
+    bool boost;
 
 public:
     GraphNode() {
@@ -84,6 +85,14 @@ public:
 
     void setStart(bool isStart) {
         Start = isStart;
+    }
+
+    bool isBoost() {
+        return boost;
+    }
+
+    void setBoost(bool isBoost) {
+        boost = isBoost;
     }
 
     Node<GraphNode*>* getNeighbors() {

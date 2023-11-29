@@ -1,4 +1,6 @@
 #include "GraphNode.h"
+#include "Stack.h"
+
 #include <random>
 
 // ANSI escape codes for text colors
@@ -177,6 +179,33 @@ public:
     void addEdge(int x1, int y1, int x2, int y2) {
         maze[x1][y1].addNeighbor(&maze[x2][y2]);
         maze[x2][y2].addNeighbor(&maze[x1][y1]);
+    }
+
+    bool pathExists()
+    {
+        Stack<GraphNode*> stack;
+        stack.push(&maze[0][0]);
+        maze[0][0].setVisited(true);
+        while (!stack.isEmpty())
+        {
+            GraphNode* node = stack.peek();
+            stack.pop();
+            if (node == &maze[width - 1][length - 1])
+            {
+                return true;
+            }
+            Node<GraphNode*>* traverse = node->getNeighbors();
+            while (traverse != nullptr)
+            {
+                if (!traverse->data->isVisited())
+                {
+                    stack.push(traverse->data);
+                    traverse->data->setVisited(true);
+                }
+                traverse = traverse->next;
+            }
+        }
+        return false;
     }
 
 };

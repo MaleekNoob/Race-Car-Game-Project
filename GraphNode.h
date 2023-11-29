@@ -10,6 +10,7 @@ class GraphNode
     bool Start; /* true if this Node is the start */
     bool Obstacle; /* true if this Node is an obstacle */
     bool boost;
+    bool visited;
 
 public:
     GraphNode()
@@ -21,6 +22,8 @@ public:
         Goal = false;
         Start = false;
         Obstacle = false;
+        visited = false;
+        boost = false;
     }
 
     GraphNode(int x, int y)
@@ -32,6 +35,8 @@ public:
         Goal = false;
         Start = false;
         Obstacle = false;
+        visited = false;
+        boost = false;
     }
 
     void displayNeighbors()
@@ -107,8 +112,19 @@ public:
         return boost;
     }
 
-    void setBoost(bool isBoost) {
+    void setBoost(bool isBoost)
+    {
         boost = isBoost;
+    }
+
+    bool isVisited()
+    {
+        return visited;
+    }
+
+    void setVisited(bool isVisited)
+    {
+        visited = isVisited;
     }
 
     Node<GraphNode*>* getNeighbors()

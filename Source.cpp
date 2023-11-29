@@ -32,6 +32,7 @@ int main()
                 switch (mode)
                 {
                 case '1':
+                {
                     cout << "You chose to play the manual mode!" << endl;
 
                     Maze maze;
@@ -42,11 +43,26 @@ int main()
                     cin >> columns;
                     maze.generateMaze(rows, columns);
                     maze.displayMaze();
-
                     break;
+                }
                 case '2':
+                {
                     cout << "You chose to play the automatic mode!" << endl;
+
+                    Maze maze;
+                    int rows, columns;
+                    cout << endl << "Enter the number of rows: ";
+                    cin >> rows;
+                    cout << "Enter the number of columns: ";
+                    cin >> columns;
+                    do
+                    {
+                        maze.generateMaze(rows, columns);
+                        maze.displayMaze();
+                    } while (!maze.pathExists());
+                    maze.displayMaze();
                     break;
+                }
                 case '3':
                     cout << "You chose to return!" << endl;
                     break;

@@ -60,8 +60,9 @@ public:
                 cout << endl;
                 for (int k = 0; k < 2; k++) {
                     for (int r = 0; r < width; r++) {
-                        cout << "Checking " << r << "," << j << " and " << r << "," << j + 1 << endl;
-                        maze[r][j].getNeighbors().display();
+                        cout << " | " << "\t";
+                        // cout << "Checking " << r << "," << j << " and " << r << "," << j + 1 << endl;
+                        // maze[r][j].getNeighbors().display();
 
                         // if (maze[r][j].getNeighbors().find(&maze[r][j + 1])) {
                         //     cout << " | " << "\t";

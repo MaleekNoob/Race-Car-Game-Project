@@ -217,10 +217,10 @@ void logo()
 
 }
 
-void modes()
+void menu()
 {
-    cout << "Modes" << endl;
-    cout << "1. Manual" << endl;
-    cout << "2. Automatic" << endl;
-
+    cout << "Menu" << endl;
+    cout << "1. Start Game" << endl;
+    cout << "2. Instructions" << endl;
+    cout << "3. Exit" << endl;
 }

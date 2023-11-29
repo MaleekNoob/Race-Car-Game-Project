@@ -56,6 +56,9 @@ public:
             {
                 cout << maze[i][j].getX() << "," << maze[i][j].getY();
                 Node<GraphNode *>* traverse = maze[i][j].getNeighbors();
+                if (traverse == nullptr) {
+                    cout << "     ";
+                }
                 while (traverse != nullptr) {
                     
                     
@@ -75,6 +78,9 @@ public:
             
             for (int r = 0; r < width; r++) {
                 Node<GraphNode *> *traverse = maze[j][r].getNeighbors();
+                if (traverse == nullptr) {
+                    cout << "   " << "\t";
+                }
                 while (traverse != nullptr) {
                     
                     

@@ -34,16 +34,21 @@ public:
         size++;
     }
 
-    void pop()
+    T pop()
     {
-        if (top == nullptr)
+        if (isEmpty())
         {
-            return;
+            throw "Stack is empty!";
         }
-        Node* temp = top;
-        top = top->next;
-        delete temp;
-        size--;
+        else
+        {
+            Node* temp = top;
+            T value = top->data;
+            top = top->next;
+            delete temp;
+            size--;
+            return value;
+        }
     }
 
     T& peek()

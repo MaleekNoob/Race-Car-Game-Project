@@ -295,43 +295,33 @@ public:
         }
     }
 
+    //Function to check if path exists from start to goal:
     bool pathExists()
-{
-    Stack<GraphNode*> stack;
-    stack.push(&maze[0][0]);
-    maze[0][0].setVisited(true);
-
-    while (!stack.isEmpty())
     {
-        GraphNode* node = stack.peek();
-        if (node == &maze[width - 1][length - 1])
+        GraphNode* start = getCarNode();
+        GraphNode* goal = &maze[width - 1][length - 1];
+        Stack<GraphNode*> stack;
+        stack.push(start);
+        start->setVisited(true);
+        while (!stack.isEmpty())
         {
-            return true;
-        }
-
-        Node<GraphNode*>* traverse = node->getNeighbors();
-        bool hasUnvisitedNeighbor = false;
-
-        while (traverse != nullptr)
-        {
-            if (!traverse->data->isVisited())
+            GraphNode* current = stack.pop();
+            if (current == goal)
             {
-                stack.push(traverse->data);
-                traverse->data->setVisited(true);
-                hasUnvisitedNeighbor = true;
-                break;  // Exit the loop after pushing the first unvisited neighbor
+                return true;
             }
-            traverse = traverse->next;
+            Node<GraphNode*>* neighbors = current->getNeighbors();
+            while (neighbors != nullptr)
+            {
+                if (!neighbors->data->isVisited())
+                {
+                    stack.push(neighbors->data);
+                    neighbors->data->setVisited(true);
+                }
+                neighbors = neighbors->next;
+            }
         }
-
-        if (!hasUnvisitedNeighbor)
-        {
-            stack.pop();  // Pop the node only if all neighbors are visited
-        }
+        return false;
     }
-
-    return false;
-}
-
 
 };

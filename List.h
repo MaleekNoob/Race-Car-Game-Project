@@ -32,7 +32,7 @@ public:
 
     void push_front(const T& value)
     {
-        Node<T>* newNode = new Node(value);
+        Node<T>* newNode = new Node<T>(value);
         newNode->next = head;
         head = newNode;
         size++;

@@ -1,7 +1,7 @@
 #include "Graph.h"
 #include <iostream>
 #include <string>
-#include <unistd.h>
+// #include <unistd.h>
 #include <stdlib.h>
 
 
@@ -60,7 +60,7 @@ int main()
                     do
                     {
                         maze.generateMaze(rows, columns);
-                        // maze.displayMaze();
+                        maze.displayMaze();
                     } while (!maze.pathExists());
                     maze.displayMaze();
                     break;

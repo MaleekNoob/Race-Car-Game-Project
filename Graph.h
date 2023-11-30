@@ -39,15 +39,23 @@ public:
             for (int i = 0; i < width; i++)
             {
                 maze[i][j] = GraphNode(i, j);
+            }
+        }
+        for (int j = 0; j < length; j++) {
+            for (int i = 0; i < width; i++)
+            {
                 makeEdges(maze[i][j]);
 
-                if (distribution(gen) == 1) {
+                if (distribution(gen) == 1)
+                {
                     maze[i][j].setObstacle(true);
                 }
-                else if (distribution(gen) == 2) {
+                else if (distribution(gen) == 2)
+                {
                     maze[i][j].setBoost(true);
                 }
-                else {
+                else
+                {
                     /* do nothing */
                 }
             }
@@ -170,8 +178,32 @@ public:
     }
 
     void addEdge(GraphNode* node1, GraphNode* node2) {
+        cout << "Neigbours of (" << node1->getX() << ", " << node1->getY() << ") before adding edges: " << endl;
+        Node<GraphNode*>* traverse = node1->getNeighbors();
+        while (traverse != nullptr) {
+            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
+            traverse = traverse->next;
+        }
+        cout << "Neigbours of (" << node2->getX() << ", " << node2->getY() << ") before adding edges: " << endl;
+        traverse = node2->getNeighbors();
+        while (traverse != nullptr) {
+            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
+            traverse = traverse->next;
+        }
         node1->addNeighbor(node2);
         node2->addNeighbor(node1);
+        cout << "Neigbours of (" << node1->getX() << ", " << node1->getY() << ") after adding edges: " << endl;
+        traverse = node1->getNeighbors();
+        while (traverse != nullptr) {
+            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
+            traverse = traverse->next;
+        }
+        cout << "Neigbours of (" << node2->getX() << ", " << node2->getY() << ") after adding edges: " << endl;
+        traverse = node2->getNeighbors();
+        while (traverse != nullptr) {
+            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
+            traverse = traverse->next;
+        }
     }
 
     GraphNode* getCarNode() {

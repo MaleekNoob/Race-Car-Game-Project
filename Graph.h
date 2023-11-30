@@ -91,12 +91,8 @@ public:
 
     void displayMaze()
     {
-        bool horizontal;
-        bool vertical;
         for (int j = 0; j < length; j++)
         {
-            horizontal = false;
-            vertical = false;
                         
             for (int i = 0; i < width; i++)
             {
@@ -120,11 +116,8 @@ public:
                     cout << "     ";
                 }
                 while (traverse != nullptr) {
-                    
-                    
                     if (traverse->data->getX() == i + 1 && traverse->data->getY() == j) {
                         cout << "-----";
-                        horizontal = true;
                         break;
                     }
                     if (traverse->next == nullptr) {
@@ -141,15 +134,14 @@ public:
                     break;
                 }
 
-                Node<GraphNode *> *traverse = maze[j][r].getNeighbors();
+                Node<GraphNode *> *traverse = maze[r][j].getNeighbors();
                 if (traverse == nullptr) {
                     cout << "   " << "\t";
                 }
                 while (traverse != nullptr) {
-                    if (traverse->data->getX() == j && traverse->data->getY() == r + 1)
+                    if (traverse->data->getX() == r && traverse->data->getY() == j + 1)
                     {
                         cout << " | " << "\t";
-                        vertical = true;
                         break;
                     }
                     if (traverse->next == nullptr) {
@@ -162,48 +154,9 @@ public:
         }
     }
 
-    void printMazeNode(GraphNode node) {
-        // if (node.isCar()) {
-        //     cout << RED << "  C  " << RESET;
-        // }
-        // else if (node.isGoal()) {
-        //     cout << GREEN << "  G  " << RESET;
-        // }
-        // else if (node.isObstacle()) {
-        //     cout << YELLOW << "  O  " << RESET;
-        // }
-        // else {
-        //     cout << "  0  ";
-        // }
-    }
-
     void addEdge(GraphNode* node1, GraphNode* node2) {
-        cout << "Neigbours of (" << node1->getX() << ", " << node1->getY() << ") before adding edges: " << endl;
-        Node<GraphNode*>* traverse = node1->getNeighbors();
-        while (traverse != nullptr) {
-            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
-            traverse = traverse->next;
-        }
-        cout << "Neigbours of (" << node2->getX() << ", " << node2->getY() << ") before adding edges: " << endl;
-        traverse = node2->getNeighbors();
-        while (traverse != nullptr) {
-            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
-            traverse = traverse->next;
-        }
         node1->addNeighbor(node2);
         node2->addNeighbor(node1);
-        cout << "Neigbours of (" << node1->getX() << ", " << node1->getY() << ") after adding edges: " << endl;
-        traverse = node1->getNeighbors();
-        while (traverse != nullptr) {
-            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
-            traverse = traverse->next;
-        }
-        cout << "Neigbours of (" << node2->getX() << ", " << node2->getY() << ") after adding edges: " << endl;
-        traverse = node2->getNeighbors();
-        while (traverse != nullptr) {
-            cout << traverse->data->getX() << ", " << traverse->data->getY() << endl;
-            traverse = traverse->next;
-        }
     }
 
     GraphNode* getCarNode() {

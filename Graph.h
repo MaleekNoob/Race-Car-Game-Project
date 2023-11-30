@@ -1,5 +1,6 @@
 #include "GraphNode.h"
 #include "Stack.h"
+#include "Queue.h"
 
 #include <random>
 #include <conio.h>
@@ -21,7 +22,8 @@ class Maze {
     GraphNode** maze;
 
 public:
-    void generateMaze(int x, int y) {
+    void generateMaze(int x, int y)
+    {
         // Seed the random number generator with a time-based seed
         random_device rd;
         mt19937 gen(rd());
@@ -32,16 +34,19 @@ public:
         width = x;
         length = y;
         maze = new GraphNode * [y];
-        for (int i = 0; i < y; i++) {
+        for (int i = 0; i < y; i++)
+        {
             maze[i] = new GraphNode[x];
         }
-        for (int j = 0; j < length; j++) {
+        for (int j = 0; j < length; j++)
+        {
             for (int i = 0; i < width; i++)
             {
                 maze[i][j] = GraphNode(i, j);
             }
         }
-        for (int j = 0; j < length; j++) {
+        for (int j = 0; j < length; j++)
+        {
             for (int i = 0; i < width; i++)
             {
                 makeEdges(maze[i][j]);
@@ -49,10 +54,12 @@ public:
                 if (distribution(gen) == 1)
                 {
                     maze[i][j].setObstacle(true);
+                    maze[i][j].setWeight(100);
                 }
                 else if (distribution(gen) == 2)
                 {
                     maze[i][j].setBoost(true);
+                    maze[i][j].setWeight(1);
                 }
                 else
                 {
@@ -66,7 +73,8 @@ public:
         maze[width - 1][length - 1].setGoal(true);
     }
 
-    void makeEdges(GraphNode& node) {
+    void makeEdges(GraphNode& node)
+    {
         // Seed the random number generator with a time-based seed
         random_device rd;
         mt19937 gen(rd());
@@ -76,12 +84,15 @@ public:
 
         int x = node.getX();
         int y = node.getY();
-        if (x < width - 1) {
-            if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3 || distribution(gen) == 4) {
+        if (x < width - 1)
+        {
+            if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3 || distribution(gen) == 4)
+            {
                 addEdge(&node, &maze[x + 1][y]);
             }
         }
-        if (y < length - 1) {
+        if (y < length - 1)
+        {
             if (distribution(gen) == 1 || distribution(gen) == 2 || distribution(gen) == 3 || distribution(gen) == 4)
             {
                 addEdge(&node, &maze[x][y + 1]);
@@ -154,16 +165,20 @@ public:
         }
     }
 
-    void addEdge(GraphNode* node1, GraphNode* node2) {
+    void addEdge(GraphNode* node1, GraphNode* node2)
+    {
         node1->addNeighbor(node2);
         node2->addNeighbor(node1);
     }
 
-    GraphNode* getCarNode() {
-        for (int j = 0; j < length; j++) {
+    GraphNode* getCarNode()
+    {
+        for (int j = 0; j < length; j++)
+        {
             for (int i = 0; i < width; i++)
             {
-                if (maze[i][j].isCar()) {
+                if (maze[i][j].isCar())
+                {
                     return &maze[i][j];
                 }
             }
@@ -171,7 +186,8 @@ public:
         return nullptr;
     }
 
-    void manualMode() {
+    void manualMode()
+    {
         char key;
         while (true)
         {
@@ -275,6 +291,46 @@ public:
             }
         }
         return false;
+    }
+
+    //Function to find the path using dijkstra's algorithm and display maze
+    void dijkstraAlgo(GraphNode** Maze, GraphNode* start)
+    {
+        //Create a priority queue
+        Queue<GraphNode*> queue;
+        //Set the start node's distance to 0
+        start->setWeight(0);
+        //Add the start node to the queue
+        queue.enqueue(start);
+        //While the queue is not empty
+        while (!queue.isEmpty())
+        {
+            //Remove the node with the smallest distance from the queue
+            GraphNode* current = queue.dequeue();
+            //If the current node is the goal node, return
+            if (current->isGoal())
+            {
+                return;
+            }
+            //For each neighbor of the current node
+            Node<GraphNode*>* neighbors = current->getNeighbors();
+            while (neighbors != nullptr)
+            {
+                //Calculate the distance from the start node to the neighbor
+                int distance = current->getWeight() + neighbors->data->getWeight();
+                //If the distance is less than the neighbor's distance
+                if (distance < neighbors->data->getWeight())
+                {
+                    //Set the neighbor's distance to the distance
+                    neighbors->data->setWeight(distance);
+                    //Set the neighbor's previous node to the current node
+                    //neighbors->data->setPrevious(current);
+                    //Add the neighbor to the queue
+                    queue.enqueue(neighbors->data);
+                }
+                neighbors = neighbors->next;
+            }
+        }
     }
 
 };

@@ -40,7 +40,7 @@ public:
 
     void push_back(const T& value)
     {
-        Node<T>* newNode = new Node(value);
+        Node<T>* newNode = new Node<T>(value);
         if (head == nullptr)
         {
             head = newNode;

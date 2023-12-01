@@ -31,6 +31,11 @@ class Maze {
             Obstacle obstacle = obstacles.dequeue();
             return obstacle;
         }
+        else {
+            Obstacle obstacle;
+            obstacle.setType("None");
+            return obstacle;
+        }
     }
 
     void generateObstacle(int x, int y) {
@@ -98,6 +103,10 @@ public:
                     /* obstacle queue operations */
                     Obstacle obstacle = processObstacle();
 
+                    if (obstacle.getType() == "None") {
+                        return;
+                    }
+
                     if (obstacle.getType() == "Obstacle") {
                         maze[i][j].setObstacle(true);
                     }
@@ -156,7 +165,7 @@ public:
     void printNodeSymbol(GraphNode* mazeNode) {
         if (mazeNode->isCar())
         {
-            cout << RED << " C " << RESET;
+            cout << YELLOW << " C " << RESET;
         }
         else if (mazeNode->isGoal())
         {
@@ -164,7 +173,13 @@ public:
         }
         else if (mazeNode->isObstacle())
         {
-            cout << YELLOW << " O " << RESET;
+            cout << RED << " O " << RESET;
+        }
+        else if (mazeNode->isDebrisObstacle()) {
+            cout << RED << " D " << RESET;
+        }
+        else if (mazeNode->isOilSpillObstacle()) {
+            cout << RED << " S " << RESET;
         }
         else if (mazeNode->isBoost())
         {

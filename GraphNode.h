@@ -26,7 +26,7 @@ public:
         Obstacle = false;
         visited = false;
         boost = false;
-        weight = 5;
+        weight = 10000;
         adjList = List<GraphNode*>();
     }
 
@@ -41,7 +41,7 @@ public:
         Obstacle = false;
         visited = false;
         boost = false;
-        weight = 5;
+        weight = 10000;
         adjList = List<GraphNode*>();
     }
 

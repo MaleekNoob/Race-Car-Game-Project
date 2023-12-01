@@ -208,6 +208,24 @@ public:
         }
         return;
     }
+
+    bool search(T value)
+    {
+        if (head == nullptr)
+        {
+            return false;
+        }
+        Node<T>* current = head;
+        while (current != nullptr)
+        {
+            if (current->data == value)
+            {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
 };
 
 

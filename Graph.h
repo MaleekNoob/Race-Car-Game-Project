@@ -85,6 +85,8 @@ public:
 
         // TODO: Generate obstacles and enqueue them in the obstacles queue
         generateObstacle(x, y);
+        deleteMaze();
+        maze = nullptr;
 
         width = x;
         length = y;
@@ -918,4 +920,26 @@ public:
             current->setPath(true);
         }
     }
+
+    void deleteMaze()
+    {
+        if (maze == nullptr)
+        {
+            return;
+        }
+
+        for (int i = 0; i < length; i++)
+        {
+            if (maze[i] != nullptr)
+            {
+                delete[] maze[i];
+            }
+        }
+        delete[] maze;
+    }
+
+    ~Maze() {
+        deleteMaze();
+    }
+
 };

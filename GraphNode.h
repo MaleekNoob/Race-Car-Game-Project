@@ -11,6 +11,7 @@ class GraphNode
     bool Obstacle; /* true if this Node is an obstacle */
     bool boost;
     bool visited;
+    bool path;
     int weight;
     List<GraphNode*> adjList;
 
@@ -28,6 +29,7 @@ public:
         boost = false;
         weight = 10000;
         adjList = List<GraphNode*>();
+        path= false;
     }
 
     GraphNode(int x, int y)
@@ -43,6 +45,7 @@ public:
         boost = false;
         weight = 10000;
         adjList = List<GraphNode*>();
+        path = false;
     }
 
     void displayNeighbors()
@@ -154,6 +157,16 @@ public:
     void setWeight(int weight)
     {
         this->weight = weight;
+    }
+
+    bool isPath()
+    {
+        return path;
+    }
+
+    void setPath(bool isPath)
+    {
+        path = isPath;
     }
 
     Node<GraphNode*>* getNeighbors()

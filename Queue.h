@@ -46,7 +46,7 @@ public:
     {
         if (isEmpty())
         {
-            throw "Queue is empty!";
+            return NULL;
         }
         else
         {

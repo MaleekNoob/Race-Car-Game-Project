@@ -28,11 +28,37 @@ class Maze {
     Obstacle processObstacle()
     {
         if (!obstacles.isEmpty()) {
-            /* do stuff */
+            Obstacle obstacle = obstacles.dequeue();
+            return obstacle;
         }
     }
 
-    void generateObstacle() {}
+    void generateObstacle(int x, int y) {
+        // Seed the random number generator with a time-based seed
+        random_device rd;
+        mt19937 gen(rd());
+
+        // Create a uniform distribution for integers in the specified range
+        uniform_int_distribution<int> distribution(0, 2);
+
+        // generate 20% obstacles of the total number of nodes
+        int totalNodes = x * y;
+        int numObstacles = totalNodes * 0.2;
+        for (int i = 0; i < numObstacles; i++) {
+            Obstacle obstacle;
+            int random = distribution(gen);
+            if (random == 0) {
+                obstacle.setType("Obstacle");
+            }
+            else if (random == 1) {
+                obstacle.setType("Oil Spill");
+            }
+            else {
+                obstacle.setType("Debris");
+            }
+            obstacles.enqueue(obstacle);
+        }
+    }
 
 public:
     void generateMaze(int x, int y)
@@ -45,7 +71,7 @@ public:
         uniform_int_distribution<int> distribution(1, 5);
 
         // TODO: Generate obstacles and enqueue them in the obstacles queue
-        generateObstacle();
+        generateObstacle(x, y);
 
         width = x;
         length = y;
@@ -72,8 +98,16 @@ public:
                     /* obstacle queue operations */
                     Obstacle obstacle = processObstacle();
 
+                    if (obstacle.getType() == "Obstacle") {
+                        maze[i][j].setObstacle(true);
+                    }
+                    else if (obstacle.getType() == "Oil Spill") {
+                        maze[i][j].setOilSpillObstacle(true);
+                    }
+                    else {
+                        maze[i][j].setDebrisObstacle(true);
+                    }
 
-                    maze[i][j].setObstacle(true);
                     maze[i][j].setWeight(100);
                 }
                 else if (distribution(gen) == 2)

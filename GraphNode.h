@@ -30,7 +30,7 @@ public:
         OilSpillObstacle = false;
         visited = false;
         boost = false;
-        weight = 5;
+        weight = 10000;
         adjList = List<GraphNode*>();
     }
 
@@ -47,7 +47,7 @@ public:
         OilSpillObstacle = false;
         visited = false;
         boost = false;
-        weight = 5;
+        weight = 10000;
         adjList = List<GraphNode*>();
     }
 

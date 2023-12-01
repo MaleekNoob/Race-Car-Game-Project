@@ -113,7 +113,6 @@ public:
                 else if (distribution(gen) == 2)
                 {
                     maze[i][j].setBoost(true);
-                    maze[i][j].setWeight(1);
                 }
                 else
                 {
@@ -356,99 +355,94 @@ public:
         return false;
     }
 
-    //function to find the shortest distance to the goal using Dijkstra's algorithm and store it in adjecency list of the graph nodes:
-    void dijkstraAlgorithm()
-{
-    GraphNode* start = getCarNode();
-    GraphNode* goal = &maze[width - 1][length - 1];
-    Queue<GraphNode*> queue;
-    queue.enqueue(start);
-    start->setWeight(0);
 
-    cout << "Queue starts: " << endl;
-    while (!queue.isEmpty())
+    Stack<GraphNode*> shortestpath()
     {
-        GraphNode* current = queue.dequeue();
-        Node<GraphNode*>* neighbors = current->getNeighbors();
+        GraphNode* start = getCarNode();
+        GraphNode* goal = &maze[width - 1][length - 1];
+        Queue<GraphNode*> queue;
+        queue.enqueue(start);
+        start->setWeight(0);
 
-        while (neighbors != nullptr)
+        List<GraphNode*> check; // Use an object instead of a pointer
+
+        while (!queue.isEmpty())
         {
-            int newWeight = current->getWeight() + neighbors->data->getWeight();
+            GraphNode* current = queue.dequeue();
+            cout << "Current: " << current->getX() << ", " << current->getY() << endl;
+            Node<GraphNode*>* neighbors = current->getNeighbors();
 
-            if (newWeight < neighbors->data->getWeight())
+            while (neighbors != nullptr)
             {
-                neighbors->data->setWeight(newWeight);
-                queue.enqueue(neighbors->data);
+                cout << "\tNeighbor: " << neighbors->data->getX() << ", " << neighbors->data->getY() << endl;
+                int newWeight;
+                if (neighbors->data->isBoost())
+                {
+                    newWeight = current->getWeight() + 1;
+                }
+                else if (neighbors->data->isObstacle())
+                {
+                    newWeight = current->getWeight() + 100;
+                }
+                else
+                {
+                    newWeight = current->getWeight() + 5;
+                }
+                if (newWeight < neighbors->data->getWeight())
+                {
+                    neighbors->data->setWeight(newWeight);
+                }
+                cout << "\t\tNew weight: " << neighbors->data->getWeight() << endl;
+                if (!check.search(neighbors->data))
+                {
+                    queue.enqueue(neighbors->data);
+                    check.push_back(neighbors->data);
+                }
+
+                neighbors = neighbors->next;
             }
-
-            neighbors = neighbors->next;
-        }
-    }
-    cout << endl << "Goal weight: " << goal->getWeight() << endl;
-    cout << endl << "Queue ends: " << endl;
-    // Store the shortest path in the adjacency list of the graph nodes:
-    cout << endl << "Stack starts: " << endl;
-    Stack<GraphNode*> stack;
-    stack.push(goal);
-
-    while (goal != start)
-{
-    Node<GraphNode*>* neighbors = goal->getNeighbors();
-    int minWeight = INT_MAX;
-    GraphNode* nextNode = nullptr;
-
-    while (neighbors != nullptr)
-    {
-        int weight = neighbors->data->getWeight();
-
-        if (weight < minWeight)
-        {
-            minWeight = weight;
-            nextNode = neighbors->data;
         }
 
-        neighbors = neighbors->next;
-    }
+        //travel the car from start to goal
+        Stack<GraphNode*> stack;
+        GraphNode* current = goal;
+        List<GraphNode*> check1;
 
-    if (nextNode != nullptr)
-    {
-        stack.push(nextNode);
-        goal = nextNode;
-    }
-    else
-    {
-        // Handle the case where no valid neighbor is found.
-        // This could be an error condition or an appropriate action.
-        break;
-    }
-}
-
-    cout << endl << "Stack ends: " << endl;
-    // Now move the car from start to goal using the adjacency list:
-    GraphNode* current = start;
-
-    while (current != goal)
-    {
-        Node<GraphNode*>* adj = current->getAdj();
-
-        while (adj != nullptr)
+        while (current != start)
         {
-            if (adj->data->getWeight() == current->getWeight() - adj->data->getWeight())
+            stack.push(current);
+            check1.push_back(current);
+            Node<GraphNode*>* neighbors = current->getNeighbors();
+            while (neighbors != nullptr)
             {
-                current->setCar(false);
-                adj->data->setCar(true);
-                current = adj->data;
-                break;
+                if (neighbors->data->getWeight() < current->getWeight() && !check1.search(neighbors->data))
+                {
+                    current = neighbors->data;
+                    break;
+                }
+                neighbors = neighbors->next;
             }
-
-            adj = adj->next;
         }
 
-        displayMaze();
+        // Clean up memory
+        // No need to delete check since it's now an object and will be automatically cleaned up
+
+        return stack;
     }
-}
 
-
-
+    void autoMode()
+    {
+        Stack<GraphNode*> stack = shortestpath();
+        maze[0][0].setCar(false);
+        while (!stack.isEmpty())
+        {
+            GraphNode* current = stack.pop();
+            cout << "Current: " << current->getX() << ", " << current->getY() << endl;
+            current->setCar(true);
+            //system("cls");
+            displayMaze();
+            current->setCar(false);
+        }
+    }
 
 };

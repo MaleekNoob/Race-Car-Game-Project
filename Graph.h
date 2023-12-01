@@ -1,6 +1,8 @@
 #include "GraphNode.h"
 #include "Stack.h"
 #include "Queue.h"
+#include "Obstacle.h"
+#include "Coin.h"
 
 #include <climits>
 #include <random>
@@ -21,6 +23,16 @@ class Maze {
     int width;
     int length;
     GraphNode** maze;
+    Queue<Obstacle> obstacles;
+
+    Obstacle processObstacle()
+    {
+        if (!obstacles.isEmpty()) {
+            /* do stuff */
+        }
+    }
+
+    void generateObstacle() {}
 
 public:
     void generateMaze(int x, int y)
@@ -31,6 +43,9 @@ public:
 
         // Create a uniform distribution for integers in the specified range
         uniform_int_distribution<int> distribution(1, 5);
+
+        // TODO: Generate obstacles and enqueue them in the obstacles queue
+        generateObstacle();
 
         width = x;
         length = y;
@@ -54,6 +69,10 @@ public:
 
                 if (distribution(gen) == 1)
                 {
+                    /* obstacle queue operations */
+                    Obstacle obstacle = processObstacle();
+
+
                     maze[i][j].setObstacle(true);
                     maze[i][j].setWeight(100);
                 }
@@ -101,6 +120,29 @@ public:
         }
     }
 
+    void printNodeSymbol(GraphNode* mazeNode) {
+        if (mazeNode->isCar())
+        {
+            cout << RED << " C " << RESET;
+        }
+        else if (mazeNode->isGoal())
+        {
+            cout << GREEN << " G " << RESET;
+        }
+        else if (mazeNode->isObstacle())
+        {
+            cout << YELLOW << " O " << RESET;
+        }
+        else if (mazeNode->isBoost())
+        {
+            cout << BLUE << " B " << RESET;
+        }
+        else
+        {
+            cout << " + ";
+        }
+    }
+
     void displayMaze()
     {
         for (int j = 0; j < length; j++)
@@ -108,21 +150,7 @@ public:
                         
             for (int i = 0; i < width; i++)
             {
-                if (maze[i][j].isCar()) {
-                    cout << RED << " C " << RESET;
-                }
-                else if (maze[i][j].isGoal()) {
-                    cout << GREEN << " G " << RESET;
-                }
-                else if (maze[i][j].isObstacle()) {
-                    cout << YELLOW << " O " << RESET;
-                }
-                else if (maze[i][j].isBoost()) {
-                    cout << BLUE << " B " << RESET;
-                }
-                else {
-                    cout << " + ";
-                }
+                printNodeSymbol(&maze[i][j]);
                 Node<GraphNode *>* traverse = maze[i][j].getNeighbors();
                 if (traverse == nullptr) {
                     cout << "     ";

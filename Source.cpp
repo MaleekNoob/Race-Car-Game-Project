@@ -37,10 +37,9 @@ int main()
 
                     Maze maze;
                     int rows, columns;
-                    cout << endl << "Enter the number of rows: ";
+                    cout << endl << "Enter the size of matrix: ";
                     cin >> rows;
-                    cout << "Enter the number of columns: ";
-                    cin >> columns;
+                    columns = rows;
                     maze.generateMaze(rows, columns);
                     maze.displayMaze();
                     maze.manualMode();

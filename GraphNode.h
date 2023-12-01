@@ -11,7 +11,10 @@ class GraphNode
     bool Obstacle; /* true if this Node is an obstacle */
     bool DebrisObstacle;
     bool OilSpillObstacle;
-    bool boost;
+    bool Coin50;
+    bool Coin100;
+    bool Coin150;
+    bool Trophy;
     bool visited;
     bool path;
     int weight;
@@ -30,7 +33,10 @@ public:
         DebrisObstacle = false;
         OilSpillObstacle = false;
         visited = false;
-        boost = false;
+        Coin50 = false;
+        Coin100 = false;
+        Coin150 = false;
+        Trophy = false;
         weight = 10000;
         adjList = List<GraphNode*>();
         path= false;
@@ -48,7 +54,10 @@ public:
         DebrisObstacle = false;
         OilSpillObstacle = false;
         visited = false;
-        boost = false;
+        Coin50 = false;
+        Coin100 = false;
+        Coin150 = false;
+        Trophy = false;
         weight = 10000;
         adjList = List<GraphNode*>();
         path = false;
@@ -156,13 +165,40 @@ public:
         Start = isStart;
     }
 
-    bool isBoost() {
-        return boost;
+    bool isCoin50() {
+        return Coin50;
     }
 
-    void setBoost(bool isBoost)
+    bool isCoin100() {
+        return Coin100;
+    }
+
+    bool isCoin150() {
+        return Coin150;
+    }
+
+    void setCoin50(bool isCoin50)
     {
-        boost = isBoost;
+        Coin50 = isCoin50;
+    }
+
+    void setCoin100(bool isCoin100)
+    {
+        Coin100 = isCoin100;
+    }
+
+    void setCoin150(bool isCoin150)
+    {
+        Coin150 = isCoin150;
+    }
+
+    bool isTrophy() {
+        return Trophy;
+    }
+
+    void setTrophy(bool isTrophy)
+    {
+        Trophy = isTrophy;
     }
 
     bool isVisited()

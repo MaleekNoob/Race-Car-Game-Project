@@ -203,7 +203,7 @@ public:
         Node<T>* current = head;
         for (int i = 0; current != nullptr; i++)
         {
-            cout << "   " << current->data ;
+            cout << "   " << current ;
             current = current->next;
         }
         return;

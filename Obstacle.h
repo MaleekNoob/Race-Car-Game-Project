@@ -11,6 +11,11 @@ class Obstacle
             type = "Obstacle";
         }
 
+        Obstacle(string t)
+        {
+            type = t;
+        }
+
         void setType(string t)
         {
             type = t;

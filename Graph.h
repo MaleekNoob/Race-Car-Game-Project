@@ -2,6 +2,7 @@
 #include "Stack.h"
 #include "Queue.h"
 
+#include <climits>
 #include <random>
 #include <conio.h>
 #include <cstdlib>
@@ -293,44 +294,99 @@ public:
         return false;
     }
 
-    //Function to find the path using dijkstra's algorithm and display maze
-    void dijkstraAlgo(GraphNode** Maze, GraphNode* start)
+    //function to find the shortest distance to the goal using Dijkstra's algorithm and store it in adjecency list of the graph nodes:
+    void dijkstraAlgorithm()
+{
+    GraphNode* start = getCarNode();
+    GraphNode* goal = &maze[width - 1][length - 1];
+    Queue<GraphNode*> queue;
+    queue.enqueue(start);
+    start->setWeight(0);
+
+    cout << "Queue starts: " << endl;
+    while (!queue.isEmpty())
     {
-        //Create a priority queue
-        Queue<GraphNode*> queue;
-        //Set the start node's distance to 0
-        start->setWeight(0);
-        //Add the start node to the queue
-        queue.enqueue(start);
-        //While the queue is not empty
-        while (!queue.isEmpty())
+        GraphNode* current = queue.dequeue();
+        Node<GraphNode*>* neighbors = current->getNeighbors();
+
+        while (neighbors != nullptr)
         {
-            //Remove the node with the smallest distance from the queue
-            GraphNode* current = queue.dequeue();
-            //If the current node is the goal node, return
-            if (current->isGoal())
+            int newWeight = current->getWeight() + neighbors->data->getWeight();
+
+            if (newWeight < neighbors->data->getWeight())
             {
-                return;
+                neighbors->data->setWeight(newWeight);
+                queue.enqueue(neighbors->data);
             }
-            //For each neighbor of the current node
-            Node<GraphNode*>* neighbors = current->getNeighbors();
-            while (neighbors != nullptr)
-            {
-                //Calculate the distance from the start node to the neighbor
-                int distance = current->getWeight() + neighbors->data->getWeight();
-                //If the distance is less than the neighbor's distance
-                if (distance < neighbors->data->getWeight())
-                {
-                    //Set the neighbor's distance to the distance
-                    neighbors->data->setWeight(distance);
-                    //Set the neighbor's previous node to the current node
-                    //neighbors->data->setPrevious(current);
-                    //Add the neighbor to the queue
-                    queue.enqueue(neighbors->data);
-                }
-                neighbors = neighbors->next;
-            }
+
+            neighbors = neighbors->next;
         }
     }
+    cout << endl << "Goal weight: " << goal->getWeight() << endl;
+    cout << endl << "Queue ends: " << endl;
+    // Store the shortest path in the adjacency list of the graph nodes:
+    cout << endl << "Stack starts: " << endl;
+    Stack<GraphNode*> stack;
+    stack.push(goal);
+
+    while (goal != start)
+{
+    Node<GraphNode*>* neighbors = goal->getNeighbors();
+    int minWeight = INT_MAX;
+    GraphNode* nextNode = nullptr;
+
+    while (neighbors != nullptr)
+    {
+        int weight = neighbors->data->getWeight();
+
+        if (weight < minWeight)
+        {
+            minWeight = weight;
+            nextNode = neighbors->data;
+        }
+
+        neighbors = neighbors->next;
+    }
+
+    if (nextNode != nullptr)
+    {
+        stack.push(nextNode);
+        goal = nextNode;
+    }
+    else
+    {
+        // Handle the case where no valid neighbor is found.
+        // This could be an error condition or an appropriate action.
+        break;
+    }
+}
+
+    cout << endl << "Stack ends: " << endl;
+    // Now move the car from start to goal using the adjacency list:
+    GraphNode* current = start;
+
+    while (current != goal)
+    {
+        Node<GraphNode*>* adj = current->getAdj();
+
+        while (adj != nullptr)
+        {
+            if (adj->data->getWeight() == current->getWeight() - adj->data->getWeight())
+            {
+                current->setCar(false);
+                adj->data->setCar(true);
+                current = adj->data;
+                break;
+            }
+
+            adj = adj->next;
+        }
+
+        displayMaze();
+    }
+}
+
+
+
 
 };

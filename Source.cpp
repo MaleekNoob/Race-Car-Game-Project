@@ -62,6 +62,7 @@ int main()
                         maze.generateMaze(rows, columns);
                     } while (!maze.pathExists());
                     maze.displayMaze();
+                    maze.dijkstraAlgorithm();
                     break;
                 }
                 case '3':

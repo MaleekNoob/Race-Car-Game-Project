@@ -12,6 +12,7 @@ class GraphNode
     bool boost;
     bool visited;
     int weight;
+    List<GraphNode*> adjList;
 
 public:
     GraphNode()
@@ -26,6 +27,7 @@ public:
         visited = false;
         boost = false;
         weight = 5;
+        adjList = List<GraphNode*>();
     }
 
     GraphNode(int x, int y)
@@ -40,6 +42,7 @@ public:
         visited = false;
         boost = false;
         weight = 5;
+        adjList = List<GraphNode*>();
     }
 
     void displayNeighbors()
@@ -55,6 +58,19 @@ public:
     void removeNeighbor(GraphNode* node)
     {
         neighbors.remove(node);
+    }
+
+    void addAdj(GraphNode* node)
+    {
+        adjList.push_back(node);
+    }
+    void removeAdj(GraphNode* node)
+    {
+        adjList.remove(node);
+    }
+    void displayAdj()
+    {
+        adjList.display();
     }
     //getters and setters
     int getX()
@@ -143,6 +159,11 @@ public:
     Node<GraphNode*>* getNeighbors()
     {
         return neighbors.getHead();
+    }
+
+    Node<GraphNode*>* getAdj()
+    {
+        return adjList.getHead();
     }
 
     bool operator==(GraphNode& node)

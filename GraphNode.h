@@ -9,6 +9,8 @@ class GraphNode
     bool Goal; /* true if this Node is the goal */
     bool Start; /* true if this Node is the start */
     bool Obstacle; /* true if this Node is an obstacle */
+    bool DebrisObstacle;
+    bool OilSpillObstacle;
     bool boost;
     bool visited;
     bool path;
@@ -25,6 +27,8 @@ public:
         Goal = false;
         Start = false;
         Obstacle = false;
+        DebrisObstacle = false;
+        OilSpillObstacle = false;
         visited = false;
         boost = false;
         weight = 10000;
@@ -41,6 +45,8 @@ public:
         Goal = false;
         Start = false;
         Obstacle = false;
+        DebrisObstacle = false;
+        OilSpillObstacle = false;
         visited = false;
         boost = false;
         weight = 10000;
@@ -95,9 +101,29 @@ public:
         return Obstacle;
     }
 
+    bool isDebrisObstacle()
+    {
+        return DebrisObstacle;
+    }
+
+    bool isOilSpillObstacle()
+    {
+        return OilSpillObstacle;
+    }
+
     void setObstacle(bool isObstacle)
     {
         Obstacle = isObstacle;
+    }
+
+    void setDebrisObstacle(bool isDebrisObstacle)
+    {
+        DebrisObstacle = isDebrisObstacle;
+    }
+
+    void setOilSpillObstacle(bool isOilSpillObstacle)
+    {
+        OilSpillObstacle = isOilSpillObstacle;
     }
 
     bool isCar()

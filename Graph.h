@@ -1,6 +1,8 @@
 #include "GraphNode.h"
 #include "Stack.h"
 #include "Queue.h"
+#include "Obstacle.h"
+#include "Coin.h"
 
 #include <climits>
 #include <random>
@@ -21,6 +23,42 @@ class Maze {
     int width;
     int length;
     GraphNode** maze;
+    Queue<Obstacle> obstacles;
+
+    Obstacle processObstacle()
+    {
+        if (!obstacles.isEmpty()) {
+            Obstacle obstacle = obstacles.dequeue();
+            return obstacle;
+        }
+    }
+
+    void generateObstacle(int x, int y) {
+        // Seed the random number generator with a time-based seed
+        random_device rd;
+        mt19937 gen(rd());
+
+        // Create a uniform distribution for integers in the specified range
+        uniform_int_distribution<int> distribution(0, 2);
+
+        // generate 20% obstacles of the total number of nodes
+        int totalNodes = x * y;
+        int numObstacles = totalNodes * 0.2;
+        for (int i = 0; i < numObstacles; i++) {
+            Obstacle obstacle;
+            int random = distribution(gen);
+            if (random == 0) {
+                obstacle.setType("Obstacle");
+            }
+            else if (random == 1) {
+                obstacle.setType("Oil Spill");
+            }
+            else {
+                obstacle.setType("Debris");
+            }
+            obstacles.enqueue(obstacle);
+        }
+    }
 
 public:
     void generateMaze(int x, int y)
@@ -31,6 +69,9 @@ public:
 
         // Create a uniform distribution for integers in the specified range
         uniform_int_distribution<int> distribution(1, 5);
+
+        // TODO: Generate obstacles and enqueue them in the obstacles queue
+        generateObstacle(x, y);
 
         width = x;
         length = y;
@@ -54,7 +95,20 @@ public:
 
                 if (distribution(gen) == 1)
                 {
-                    maze[i][j].setObstacle(true);
+                    /* obstacle queue operations */
+                    Obstacle obstacle = processObstacle();
+
+                    if (obstacle.getType() == "Obstacle") {
+                        maze[i][j].setObstacle(true);
+                    }
+                    else if (obstacle.getType() == "Oil Spill") {
+                        maze[i][j].setOilSpillObstacle(true);
+                    }
+                    else {
+                        maze[i][j].setDebrisObstacle(true);
+                    }
+
+                    maze[i][j].setWeight(100);
                 }
                 else if (distribution(gen) == 2)
                 {
@@ -99,6 +153,33 @@ public:
         }
     }
 
+    void printNodeSymbol(GraphNode* mazeNode) {
+        if (mazeNode->isPath())
+        {
+            cout << CYAN << " P " << RESET;
+        }
+        else if (mazeNode->isCar())
+        {
+            cout << RED << " C " << RESET;
+        }
+        else if (mazeNode->isGoal())
+        {
+            cout << GREEN << " G " << RESET;
+        }
+        else if (mazeNode->isObstacle())
+        {
+            cout << YELLOW << " O " << RESET;
+        }
+        else if (mazeNode->isBoost())
+        {
+            cout << BLUE << " B " << RESET;
+        }
+        else
+        {
+            cout << " + ";
+        }
+    }
+
     void displayMaze()
     {
         for (int j = 0; j < length; j++)
@@ -106,27 +187,7 @@ public:
                         
             for (int i = 0; i < width; i++)
             {
-                if (maze[i][j].isPath())
-                {
-                    cout << CYAN << " P " << RESET;
-                }
-                else if (maze[i][j].isCar())
-                {
-                    cout << RED << " C " << RESET;
-                }
-                else if (maze[i][j].isGoal())
-                {
-                    cout << GREEN << " G " << RESET;
-                }
-                else if (maze[i][j].isObstacle()) {
-                    cout << YELLOW << " O " << RESET;
-                }
-                else if (maze[i][j].isBoost()) {
-                    cout << BLUE << " B " << RESET;
-                }
-                else {
-                    cout << " + ";
-                }
+                printNodeSymbol(&maze[i][j]);
                 Node<GraphNode *>* traverse = maze[i][j].getNeighbors();
                 if (traverse == nullptr) {
                     cout << "     ";

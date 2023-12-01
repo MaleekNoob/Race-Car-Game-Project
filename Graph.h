@@ -163,7 +163,11 @@ public:
     }
 
     void printNodeSymbol(GraphNode* mazeNode) {
-        if (mazeNode->isCar())
+        if (mazeNode->isPath())
+        {
+            cout << CYAN << " P " << RESET;
+        }
+        else if (mazeNode->isCar())
         {
             cout << YELLOW << " C " << RESET;
         }
@@ -397,7 +401,7 @@ public:
                 }
                 else if (neighbors->data->isObstacle())
                 {
-                    newWeight = current->getWeight() + 100;
+                    newWeight = current->getWeight() + 10;
                 }
                 else
                 {
@@ -449,6 +453,7 @@ public:
     {
         Stack<GraphNode*> stack = shortestpath();
         maze[0][0].setCar(false);
+        maze[0][0].setPath(true);
         while (!stack.isEmpty())
         {
             GraphNode* current = stack.pop();
@@ -457,6 +462,7 @@ public:
             //system("cls");
             displayMaze();
             current->setCar(false);
+            current->setPath(true);
         }
     }
 

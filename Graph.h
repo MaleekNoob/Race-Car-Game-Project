@@ -368,7 +368,6 @@ public:
                 }
             }
         }
-        return nullptr;
     }
 
     GraphNode getCarNodeObject()
@@ -409,42 +408,37 @@ public:
         char key;
         List<Coin> coinsList;
         List<Trophy> trophiesList;
-        cout << endl
-             << "Enter start node x and y components: ";
+        /*cout << endl << "Enter start node x and y components: ";
         int start_x, start_y;
         cin >> start_x >> start_y;
 
         while (start_x >= width || start_y >= length || start_x < 0 || start_y < 0)
         {
-            cout << endl
-                 << "Invalid start node!" << endl;
-            cout << endl
-                 << "Enter start node x and y components: ";
+            cout << endl << "Invalid start node!" << endl;
+            cout << endl << "Enter start node x and y components: ";
             cin >> start_x >> start_y;
         }
 
         maze[start_x][start_y].setCar(true);
 
         cout << endl
-             << "Enter goal node x and y components: ";
+            << "Enter goal node x and y components: ";
         int goal_x, goal_y;
         cin >> goal_x >> goal_y;
 
         while (goal_x >= width || goal_y >= length || goal_x < 0 || goal_y < 0)
         {
-            cout << endl
-                 << "Invalid goal node!" << endl;
-            cout << endl
-                 << "Enter goal node x and y components: ";
+            cout << endl << "Invalid goal node!" << endl;
+            cout << endl << "Enter goal node x and y components: ";
             cin >> goal_x >> goal_y;
         }
 
-        maze[goal_x][goal_y].setGoal(true);
+        maze[goal_x][goal_y].setGoal(true);*/
 
-        // do
-        // {
-        //     generateMaze(width, length);
-        // } while (!pathExists());
+        do
+        {
+            generateMaze(width, length);
+        } while (!pathExists());
 
         while (true)
         {

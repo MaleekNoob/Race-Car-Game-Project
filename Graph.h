@@ -85,7 +85,7 @@ public:
 
         // TODO: Generate obstacles and enqueue them in the obstacles queue
         generateObstacle(x, y);
-        deleteMaze();
+        // deleteMaze();
         maze = nullptr;
 
         width = x;
@@ -165,6 +165,37 @@ public:
                 }
             }
         }
+    }
+
+    void setStartAndGoal()
+    {
+        int x_start, y_start, x_goal, y_goal;
+        cout << endl
+             << "Enter Start x and y coordinates: ";
+        cin >> x_start >> y_start;
+        while (x_start >= width || y_start >= length || x_start < 0 || y_start < 0)
+        {
+            cout << endl
+                 << "Invalid start node!" << endl;
+            cout << endl
+                 << "Enter start node x and y components: ";
+            cin >> x_start >> y_start;
+        }
+
+        cout << endl
+             << "Enter Goal x and y coordinates: ";
+        cin >> x_goal >> y_goal;
+        while (y_goal >= width || y_goal >= length || x_goal < 0 || y_goal < 0)
+        {
+            cout << endl
+                 << "Invalid goal node!" << endl;
+            cout << endl
+                 << "Enter goal node x and y components: ";
+            cin >> x_goal >> y_goal;
+        }
+
+        maze[x_start][y_start].setCar(true);
+        maze[x_goal][y_goal].setGoal(true);
     }
 
     void makeEdges(GraphNode &node)
@@ -337,6 +368,37 @@ public:
                 }
             }
         }
+        return nullptr;
+    }
+
+    GraphNode getCarNodeObject()
+    {
+        for (int j = 0; j < length; j++)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                if (maze[i][j].isCar())
+                {
+                    return maze[i][j];
+                }
+            }
+        }
+        return GraphNode(-1, -1);
+    }
+
+    GraphNode getGoalNodeObject()
+    {
+        for (int j = 0; j < length; j++)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                if (maze[i][j].isGoal())
+                {
+                    return maze[i][j];
+                }
+            }
+        }
+        return GraphNode(-1, -1);
     }
 
     void manualMode()
@@ -347,14 +409,17 @@ public:
         char key;
         List<Coin> coinsList;
         List<Trophy> trophiesList;
-        cout << endl << "Enter start node x and y components: ";
+        cout << endl
+             << "Enter start node x and y components: ";
         int start_x, start_y;
         cin >> start_x >> start_y;
 
         while (start_x >= width || start_y >= length || start_x < 0 || start_y < 0)
         {
-            cout << endl << "Invalid start node!" << endl;
-            cout << endl << "Enter start node x and y components: ";
+            cout << endl
+                 << "Invalid start node!" << endl;
+            cout << endl
+                 << "Enter start node x and y components: ";
             cin >> start_x >> start_y;
         }
 
@@ -367,17 +432,19 @@ public:
 
         while (goal_x >= width || goal_y >= length || goal_x < 0 || goal_y < 0)
         {
-            cout << endl << "Invalid goal node!" << endl;
-            cout << endl << "Enter goal node x and y components: ";
+            cout << endl
+                 << "Invalid goal node!" << endl;
+            cout << endl
+                 << "Enter goal node x and y components: ";
             cin >> goal_x >> goal_y;
         }
 
         maze[goal_x][goal_y].setGoal(true);
 
-        do
-        {
-            generateMaze(width, length);
-        } while (!pathExists());
+        // do
+        // {
+        //     generateMaze(width, length);
+        // } while (!pathExists());
 
         while (true)
         {
@@ -470,10 +537,20 @@ public:
 
                             cout << endl
                                  << "Coins List: " << endl;
-                            coinsList.display();
+                            Node<Coin> *coin_traverse = coinsList.getHead();
+                            while (coin_traverse != nullptr)
+                            {
+                                cout << coin_traverse->data.getValue() << " ";
+                                coin_traverse = coin_traverse->next;
+                            }
                             cout << endl
                                  << "Trophies List: " << endl;
-                            coinsList.display();
+                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
+                            while (trophy_traverse != nullptr)
+                            {
+                                cout << trophy_traverse->data.getValue() << " ";
+                                trophy_traverse = trophy_traverse->next;
+                            }
                             return;
                         }
                         else
@@ -563,10 +640,20 @@ public:
 
                             cout << endl
                                  << "Coins List: " << endl;
-                            coinsList.display();
+                            Node<Coin> *coin_traverse = coinsList.getHead();
+                            while (coin_traverse != nullptr)
+                            {
+                                cout << coin_traverse->data.getValue() << " ";
+                                coin_traverse = coin_traverse->next;
+                            }
                             cout << endl
                                  << "Trophies List: " << endl;
-                            coinsList.display();
+                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
+                            while (trophy_traverse != nullptr)
+                            {
+                                cout << trophy_traverse->data.getValue() << " ";
+                                trophy_traverse = trophy_traverse->next;
+                            }
                             return;
                         }
                         else
@@ -656,10 +743,20 @@ public:
 
                             cout << endl
                                  << "Coins List: " << endl;
-                            coinsList.display();
+                            Node<Coin> *coin_traverse = coinsList.getHead();
+                            while (coin_traverse != nullptr)
+                            {
+                                cout << coin_traverse->data.getValue() << " ";
+                                coin_traverse = coin_traverse->next;
+                            }
                             cout << endl
                                  << "Trophies List: " << endl;
-                            coinsList.display();
+                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
+                            while (trophy_traverse != nullptr)
+                            {
+                                cout << trophy_traverse->data.getValue() << " ";
+                                trophy_traverse = trophy_traverse->next;
+                            }
                             return;
                         }
                         else
@@ -749,10 +846,20 @@ public:
 
                             cout << endl
                                  << "Coins List: " << endl;
-                            coinsList.display();
+                            Node<Coin> *coin_traverse = coinsList.getHead();
+                            while (coin_traverse != nullptr)
+                            {
+                                cout << coin_traverse->data.getValue() << " ";
+                                coin_traverse = coin_traverse->next;
+                            }
                             cout << endl
                                  << "Trophies List: " << endl;
-                            coinsList.display();
+                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
+                            while (trophy_traverse != nullptr)
+                            {
+                                cout << trophy_traverse->data.getValue() << " ";
+                                trophy_traverse = trophy_traverse->next;
+                            }
                             return;
                         }
                         else
@@ -781,11 +888,40 @@ public:
         }
     }
 
-    // Function to check if path exists from start to goal:
     bool pathExists()
     {
-        GraphNode *start = getCarNode();
-        GraphNode *goal = getGoalNode();
+        static int run_once, x_start, y_start, x_goal, y_goal;
+        if (run_once == 0)
+        {
+            cout << endl
+                 << "Enter Start x and y coordinates: ";
+            cin >> x_start >> y_start;
+            while (x_start >= width || y_start >= length || x_start < 0 || y_start < 0)
+            {
+                cout << endl
+                     << "Invalid start node!" << endl;
+                cout << endl
+                     << "Enter start node x and y components: ";
+                cin >> x_start >> y_start;
+            }
+
+            cout << endl
+                 << "Enter Goal x and y coordinates: ";
+            cin >> x_goal >> y_goal;
+            while (y_goal >= width || y_goal >= length || x_goal < 0 || y_goal < 0)
+            {
+                cout << endl
+                     << "Invalid goal node!" << endl;
+                cout << endl
+                     << "Enter goal node x and y components: ";
+                cin >> x_goal >> y_goal;
+            }
+            run_once++;
+        }
+        maze[x_start][y_start].setCar(true);
+        maze[x_goal][y_goal].setGoal(true);
+        GraphNode *start = &maze[x_start][y_start];
+        GraphNode *goal = &maze[x_goal][y_goal];
         Stack<GraphNode *> stack;
         stack.push(start);
         start->setVisited(true);
@@ -813,7 +949,7 @@ public:
     Stack<GraphNode *> shortestpath()
     {
         GraphNode *start = getCarNode();
-        GraphNode *goal = &maze[width - 1][length - 1];
+        GraphNode *goal = getGoalNode();
         Queue<GraphNode *> queue;
         queue.enqueue(start);
         start->setWeight(0);
@@ -906,14 +1042,16 @@ public:
 
     void autoMode()
     {
+        GraphNode temp = getCarNodeObject();
         Stack<GraphNode *> stack = shortestpath();
-        maze[0][0].setCar(false);
-        maze[0][0].setPath(true);
+        temp.setCar(false);
+        temp.setPath(true);
         while (!stack.isEmpty())
         {
             GraphNode *current = stack.pop();
             cout << "Current: " << current->getX() << ", " << current->getY() << endl;
             current->setCar(true);
+            this_thread::sleep_for(chrono::milliseconds(500));
             system("cls");
             displayMaze();
             current->setCar(false);
@@ -938,8 +1076,8 @@ public:
         delete[] maze;
     }
 
-    ~Maze() {
+    ~Maze()
+    {
         deleteMaze();
     }
-
 };

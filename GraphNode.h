@@ -4,11 +4,11 @@ class GraphNode
 {
     int x;
     int y;
-    List<GraphNode*> neighbors; /* list to store GraphNode's neighbors */
-    bool Car; /* true if car is on this Node */
-    bool Goal; /* true if this Node is the goal */
-    bool Start; /* true if this Node is the start */
-    bool Obstacle; /* true if this Node is an obstacle */
+    List<GraphNode *> neighbors; /* list to store GraphNode's neighbors */
+    bool Car;                    /* true if car is on this Node */
+    bool Goal;                   /* true if this Node is the goal */
+    bool Start;                  /* true if this Node is the start */
+    bool Obstacle;               /* true if this Node is an obstacle */
     bool DebrisObstacle;
     bool OilSpillObstacle;
     bool Coin50;
@@ -18,14 +18,14 @@ class GraphNode
     bool visited;
     bool path;
     int weight;
-    List<GraphNode*> adjList;
+    List<GraphNode *> adjList;
 
 public:
     GraphNode()
     {
         x = -1;
         y = -1;
-        neighbors = List<GraphNode*>();
+        neighbors = List<GraphNode *>();
         Car = false;
         Goal = false;
         Start = false;
@@ -38,15 +38,15 @@ public:
         Coin150 = false;
         Trophy = false;
         weight = 10000;
-        adjList = List<GraphNode*>();
-        path= false;
+        adjList = List<GraphNode *>();
+        path = false;
     }
 
     GraphNode(int x, int y)
     {
         this->x = x;
         this->y = y;
-        neighbors = List<GraphNode*>();
+        neighbors = List<GraphNode *>();
         Car = false;
         Goal = false;
         Start = false;
@@ -59,8 +59,41 @@ public:
         Coin150 = false;
         Trophy = false;
         weight = 10000;
-        adjList = List<GraphNode*>();
+        adjList = List<GraphNode *>();
         path = false;
+    }
+
+    GraphNode(const GraphNode &other)
+    {
+        x = other.x;
+        y = other.y;
+        neighbors = List<GraphNode *>();
+        const Node<GraphNode *> *current = other.neighbors.getHead();
+        while (current != nullptr)
+        {
+            neighbors.push_back(current->data);
+            current = current->next;
+        }
+        Car = other.Car;
+        Goal = other.Goal;
+        Start = other.Start;
+        Obstacle = other.Obstacle;
+        DebrisObstacle = other.DebrisObstacle;
+        OilSpillObstacle = other.OilSpillObstacle;
+        Coin50 = other.Coin50;
+        Coin100 = other.Coin100;
+        Coin150 = other.Coin150;
+        Trophy = other.Trophy;
+        visited = other.visited;
+        path = other.path;
+        weight = other.weight;
+        adjList = List<GraphNode *>();
+        const Node<GraphNode *> *current2 = other.adjList.getHead();
+        while (current2 != nullptr)
+        {
+            adjList.push_back(current2->data);
+            current2 = current2->next;
+        }
     }
 
     void displayNeighbors()
@@ -68,21 +101,21 @@ public:
         neighbors.display();
     }
 
-    void addNeighbor(GraphNode* node)
+    void addNeighbor(GraphNode *node)
     {
         neighbors.push_back(node);
     }
 
-    void removeNeighbor(GraphNode* node)
+    void removeNeighbor(GraphNode *node)
     {
         neighbors.remove(node);
     }
 
-    void addAdj(GraphNode* node)
+    void addAdj(GraphNode *node)
     {
         adjList.push_back(node);
     }
-    void removeAdj(GraphNode* node)
+    void removeAdj(GraphNode *node)
     {
         adjList.remove(node);
     }
@@ -90,7 +123,7 @@ public:
     {
         adjList.display();
     }
-    //getters and setters
+    // getters and setters
     int getX()
     {
         return x;
@@ -165,15 +198,18 @@ public:
         Start = isStart;
     }
 
-    bool isCoin50() {
+    bool isCoin50()
+    {
         return Coin50;
     }
 
-    bool isCoin100() {
+    bool isCoin100()
+    {
         return Coin100;
     }
 
-    bool isCoin150() {
+    bool isCoin150()
+    {
         return Coin150;
     }
 
@@ -192,7 +228,8 @@ public:
         Coin150 = isCoin150;
     }
 
-    bool isTrophy() {
+    bool isTrophy()
+    {
         return Trophy;
     }
 
@@ -231,17 +268,17 @@ public:
         path = isPath;
     }
 
-    Node<GraphNode*>* getNeighbors()
+    Node<GraphNode *> *getNeighbors()
     {
         return neighbors.getHead();
     }
 
-    Node<GraphNode*>* getAdj()
+    Node<GraphNode *> *getAdj()
     {
         return adjList.getHead();
     }
 
-    bool operator==(GraphNode& node)
+    bool operator==(GraphNode &node)
     {
         return x == node.getX() && y == node.getY();
     }

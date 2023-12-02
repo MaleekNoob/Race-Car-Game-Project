@@ -18,6 +18,7 @@ private:
     Node *front;
     Node *back;
     int size;
+
 public:
     Queue() : front(nullptr), back(nullptr), size(0) {}
 
@@ -26,9 +27,9 @@ public:
         clear();
     }
 
-    void enqueue(const T& value)
+    void enqueue(const T &value)
     {
-        Node* newNode = new Node(value);
+        Node *newNode = new Node(value);
         if (front == nullptr)
         {
             front = newNode;
@@ -50,7 +51,7 @@ public:
         }
         else
         {
-            Node* temp = front;
+            Node *temp = front;
             T value = front->data;
             front = front->next;
             delete temp;
@@ -59,7 +60,7 @@ public:
         }
     }
 
-    T& peek()
+    T &peek()
     {
         return front->data;
     }
@@ -81,5 +82,4 @@ public:
             dequeue();
         }
     }
-
 };

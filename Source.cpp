@@ -4,7 +4,6 @@
 // #include <unistd.h>
 #include <stdlib.h>
 
-
 using namespace std;
 
 int main()
@@ -37,13 +36,13 @@ int main()
 
                     Maze maze;
                     int rows, columns;
-                    cout << endl << "Enter the size of matrix: ";
+                    cout << endl
+                         << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
                     maze.displayMaze();
                     maze.manualMode();
-
 
                     break;
                 }
@@ -53,14 +52,19 @@ int main()
 
                     Maze maze;
                     int rows, columns;
-                    cout << endl << "Enter the number of rows: ";
+                    cout << endl
+                         << "Enter the number of rows: ";
                     cin >> rows;
                     cout << "Enter the number of columns: ";
                     cin >> columns;
-                    do
+                    maze.generateMaze(rows, columns);
+                    maze.displayMaze();
+                    while (!maze.pathExists())
                     {
                         maze.generateMaze(rows, columns);
-                    } while (!maze.pathExists());
+                    }
+                    system("cls");
+                    cout << "Graph Generated: " << endl;
                     maze.displayMaze();
                     maze.autoMode();
                     break;
@@ -84,15 +88,15 @@ int main()
                 cin >> instructions;
                 switch (instructions)
                 {
-                    case 'E':
-                        cout << "You chose to exit the instructions!" << endl;
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
+                case 'E':
+                    cout << "You chose to exit the instructions!" << endl;
+                    break;
+                default:
+                    cout << "Invalid choice!" << endl;
+                    break;
                 }
             } while (instructions != 'E');
-            break; 
+            break;
         case '3':
             cout << "You chose to exit the game!" << endl;
             break;

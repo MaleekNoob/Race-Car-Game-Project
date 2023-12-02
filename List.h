@@ -9,16 +9,16 @@ template <class T>
 struct Node
 {
     T data;
-    Node *next;
+    Node* next;
     Node() : data(NULL), next(nullptr) {}
-    Node(const T &value) : data(value), next(nullptr) {}
+    Node(const T& value) : data(value), next(nullptr) {}
 };
 
 template <typename T>
 class List
 {
 private:
-    Node<T> *head;
+    Node<T>* head;
     int size;
 
 public:
@@ -29,24 +29,24 @@ public:
         clear();
     }
 
-    void push_front(const T &value)
+    void push_front(const T& value)
     {
-        Node<T> *newNode = new Node<T>(value);
+        Node<T>* newNode = new Node<T>(value);
         newNode->next = head;
         head = newNode;
         size++;
     }
 
-    void push_back(const T &value)
+    void push_back(const T& value)
     {
-        Node<T> *newNode = new Node<T>(value);
+        Node<T>* newNode = new Node<T>(value);
         if (head == nullptr)
         {
             head = newNode;
         }
         else
         {
-            Node<T> *current = head;
+            Node<T>* current = head;
             while (current->next != nullptr)
             {
                 current = current->next;
@@ -92,19 +92,19 @@ public:
         size--;
     }
 
-    T &front()
+    T& front()
     {
         return head->data;
     }
 
-    const T &front() const
+    const T& front() const
     {
         return head->data;
     }
 
-    T &back()
+    T& back()
     {
-        Node<T> *current = head;
+        Node<T>* current = head;
         while (current->next != nullptr)
         {
             current = current->next;
@@ -112,9 +112,9 @@ public:
         return current->data;
     }
 
-    const T &end() const
+    const T& end() const
     {
-        Node<T> *current = head;
+        Node<T>* current = head;
         while (current->next != nullptr)
         {
             current = current->next;
@@ -136,14 +136,14 @@ public:
     {
         while (head != nullptr)
         {
-            Node<T> *temp = head;
+            Node<T>* temp = head;
             head = head->next;
             delete temp;
         }
         size = 0;
     }
 
-    void remove(const T &value)
+    void remove(const T& value)
     {
         if (head == nullptr)
         {
@@ -151,21 +151,21 @@ public:
         }
         if (head->data == value)
         {
-            Node<T> *temp = head;
+            Node<T>* temp = head;
             head = head->next;
             delete temp;
             size--;
         }
         else
         {
-            Node<T> *current = head;
+            Node<T>* current = head;
             while (current->next != nullptr && current->next->data != value)
             {
                 current = current->next;
             }
             if (current->next != nullptr)
             {
-                Node<T> *temp = current->next;
+                Node<T>* temp = current->next;
                 current->next = current->next->next;
                 delete temp;
                 size--;
@@ -173,7 +173,7 @@ public:
         }
     }
 
-    Node<T> *getHead() const
+    Node<T>* getHead() const
     {
         return head;
     }
@@ -185,7 +185,7 @@ public:
         {
             return false;
         }
-        Node<T> *current = head;
+        Node<T>* current = head;
         while (current != nullptr)
         {
             if (current->data == value)
@@ -199,7 +199,7 @@ public:
 
     void display()
     {
-        Node<T> *current = head;
+        Node<T>* current = head;
         for (int i = 0; current != nullptr; i++)
         {
             cout << "   " << current;
@@ -214,7 +214,7 @@ public:
         {
             return false;
         }
-        Node<T> *current = head;
+        Node<T>* current = head;
         while (current != nullptr)
         {
             if (current->data == value)
@@ -226,7 +226,7 @@ public:
         return false;
     }
 
-    List<T> &operator=(const List<T> &other)
+    List<T>& operator=(const List<T>& other)
     {
         if (this == &other)
         {
@@ -234,10 +234,10 @@ public:
         }
 
         // Clear the current list
-        Node<T> *current = head;
+        Node<T>* current = head;
         while (current != nullptr)
         {
-            Node<T> *temp = current;
+            Node<T>* temp = current;
             current = current->next;
             delete temp;
         }
@@ -259,7 +259,7 @@ public:
 void logo()
 {
     cout << endl
-         << endl;
+        << endl;
     string line1 = " _______ _______  ______       ______ _______ _______ _______";
     string line2 = " |       |_____| |_____/      |  ____ |_____| |  |  | |______";
     string line3 = " |_____  |     | |    \\_      |_____| |     | |  |  | |______";
@@ -270,7 +270,7 @@ void logo()
     cout << line3 << endl;
     this_thread::sleep_for(chrono::milliseconds(300));
     cout << endl
-         << endl;
+        << endl;
 }
 
 void menu()

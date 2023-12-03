@@ -32,7 +32,36 @@ int main()
                 {
                 case '1':
                 {
+                    int choice;
                     cout << "You chose to play the manual mode!" << endl;
+                    cout << "Choose complexity: " << endl;
+                    cout << "1. Easy" << endl;
+                    cout << "2. Medium" << endl;
+                    cout << "3. Hard" << endl;
+                    cout << "Enter your choice: ";
+                    cin >> choice;
+
+                    while (choice < 1 || choice > 3)
+                    {
+                        cout << "Invalid choice!" << endl;
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                    }
+
+                    char complexity;
+
+                    switch (choice)
+                    {
+                    case 1:
+                        complexity = 'e';
+                        break;
+                    case 2:
+                        complexity = 'm';
+                        break;
+                    case 3:
+                        complexity = 'h';
+                        break;
+                    }
 
                     Maze maze;
                     int rows, columns;

@@ -368,6 +368,7 @@ public:
                 }
             }
         }
+        return nullptr;
     }
 
     GraphNode getCarNodeObject()
@@ -988,6 +989,9 @@ public:
                 {
                     newWeight = current->getWeight() + 20;
                 }
+                // else if (neighbors->data->isGoal()) {
+
+                // }
                 else
                 {
                     newWeight = current->getWeight() + 5;

@@ -8,7 +8,6 @@ using namespace std;
 
 int main()
 {
-
     char choice;
     do
     {
@@ -65,8 +64,7 @@ int main()
 
                     Maze maze;
                     int rows, columns;
-                    cout << endl
-                         << "Enter the size of matrix: ";
+                    cout << endl << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
@@ -81,18 +79,16 @@ int main()
 
                     Maze maze;
                     int rows, columns;
-                    cout << endl
-                         << "Enter the number of rows: ";
+                    cout << endl << "Enter the size of matrix: ";
                     cin >> rows;
-                    cout << "Enter the number of columns: ";
-                    cin >> columns;
+                    columns = rows;
                     maze.generateMaze(rows, columns);
-                    maze.displayMaze();
+                    //maze.displayMaze();
                     while (!maze.pathExists())
                     {
                         maze.generateMaze(rows, columns);
                     }
-                    system("cls");
+                    //system("cls");
                     cout << "Graph Generated: " << endl;
                     maze.displayMaze();
                     maze.autoMode();

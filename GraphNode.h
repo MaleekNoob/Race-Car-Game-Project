@@ -3,15 +3,22 @@
 
 #include "List.h"
 
-class GraphNode
+class GraphNode /*
+                * This class represents a node in the graph
+                * It contains the x and y coordinates of the node
+                * Adjacent nodes are stored in a list (Adjacency list)
+                */
 {
     int x;
     int y;
-    List<GraphNode *> neighbors; /* list to store GraphNode's neighbors */
-    bool Car;                    /* true if car is on this Node */
-    bool Goal;                   /* true if this Node is the goal */
-    bool Start;                  /* true if this Node is the start */
-    bool Obstacle;               /* true if this Node is an obstacle */
+    List<GraphNode *> neighbors;
+    /*
+        below are flags used to indicate the type of node
+    */
+    bool Car;                    
+    bool Goal;                   
+    bool Start;                  
+    bool Obstacle;               
     bool DebrisObstacle;
     bool OilSpillObstacle;
     bool Coin50;
@@ -103,7 +110,6 @@ public:
     {
         neighbors.remove(node);
     }
-    // getters and setters
     int getX()
     {
         return x;

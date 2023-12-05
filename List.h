@@ -22,7 +22,7 @@ struct Node
 };
 
 template <typename T>
-class List
+class List  // Linked List used  to store neighbours of each vertex
 {
 private:
     Node<T> *head;

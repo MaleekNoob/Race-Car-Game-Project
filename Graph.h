@@ -74,7 +74,7 @@ class Maze
             return obstacle;
         }
     }
-    
+
     void generateObstacle(int x, int y)
     {
         // Seed the random number generator with a time-based seed
@@ -279,7 +279,7 @@ public:
             cout << " + ";
         }
     }
-        
+
     // Function to display the maze structure visually
     void displayMaze()
     {
@@ -374,7 +374,7 @@ public:
         node2->addNeighbor(node1);
     }
 
-    GraphNode *getCarNode()  // returns pointer to car node
+    GraphNode *getCarNode() // returns pointer to car node
     {
         for (int j = 0; j < length; j++)
         {
@@ -389,7 +389,7 @@ public:
         return nullptr;
     }
 
-    GraphNode *getGoalNode()  // returns pointer to goal node
+    GraphNode *getGoalNode() // returns pointer to goal node
     {
         for (int j = 0; j < length; j++)
         {
@@ -404,7 +404,7 @@ public:
         return nullptr;
     }
 
-    GraphNode getCarNodeObject()  // returns car node object
+    GraphNode getCarNodeObject() // returns car node object
     {
         for (int j = 0; j < length; j++)
         {
@@ -419,7 +419,7 @@ public:
         return GraphNode(-1, -1);
     }
 
-    GraphNode getGoalNodeObject()  // returns goal node object
+    GraphNode getGoalNodeObject() // returns goal node object
     {
         for (int j = 0; j < length; j++)
         {
@@ -734,7 +734,8 @@ public:
                     if (neighbors->data->getX() == carNode->getX() + 1 && neighbors->data->getY() == carNode->getY())
                     {
                         bool toReturn = setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
-                        if (toReturn) {
+                        if (toReturn)
+                        {
                             return;
                         }
                         break;
@@ -751,7 +752,8 @@ public:
                     if (neighbors->data->getY() == carNode->getY() + 1 && neighbors->data->getX() == carNode->getX())
                     {
                         bool toReturn = setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
-                        if (toReturn) {
+                        if (toReturn)
+                        {
                             return;
                         }
                         break;
@@ -838,7 +840,34 @@ public:
                     newWeight = current->getWeight() + 4;
                 }
                 // ... (similar calculations for other node types)
-
+                else if (neighbors->data->isCoin100())
+                {
+                    newWeight = current->getWeight() + 3;
+                }
+                else if (neighbors->data->isCoin150())
+                {
+                    newWeight = current->getWeight() + 2;
+                }
+                else if (neighbors->data->isTrophy())
+                {
+                    newWeight = current->getWeight() + 1;
+                }
+                else if (neighbors->data->isDebrisObstacle())
+                {
+                    newWeight = current->getWeight() + 15;
+                }
+                else if (neighbors->data->isOilSpillObstacle())
+                {
+                    newWeight = current->getWeight() + 10;
+                }
+                else if (neighbors->data->isObstacle())
+                {
+                    newWeight = current->getWeight() + 20;
+                }
+                else
+                {
+                    newWeight = current->getWeight() + 5;
+                }
                 // Update node weight if a shorter path is found.
                 if (newWeight < neighbors->data->getWeight())
                 {

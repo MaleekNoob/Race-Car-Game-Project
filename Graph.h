@@ -9,7 +9,6 @@
 #include <random>
 #include <conio.h>
 #include <cstdlib>
-#include <fstream>
 
 // ANSI escape codes for text colors
 #define RESET "\033[0m"
@@ -595,6 +594,8 @@ public:
                                 if (file.tellg() == 0)
                                 {
                                     std::cout << "The file is empty." << std::endl;
+                                    file.close();
+                                    file.open("leaderboard.txt", ios::out);
                                     file << point - (end - start) << endl;
                                 }
                                 else
@@ -611,34 +612,11 @@ public:
                                     cout << endl
                                          << "Current situation of the heap is: ";
                                     pointsHeap.display();
+                                    pointsHeap.insertInFile(file);
                                 }
                                 file.close();
-                                exit(0);
-                                // file.open("leaderboard.txt", ios::in | std::ios::trunc);
-                                // float points;
-                                // string line;
-                                // while (!file.eof())
-                                // {
-                                //     // read points from file
-                                //     getline(file, line);
-                                //     cout << endl
-                                //          << "Line: " << line;
-
-                                //     // cout << endl
-                                //     //      << "Point: " << points;
-                                //     // pointsHeap.insert(points);
-                                // }
-                                // exit(0);
-                                // file.close();
-                                // file.open("leaderboard.txt", ios::out);
-                                // cout << endl
-                                //      << "Current situation of the heap is: ";
-                                // pointsHeap.display();
-                                // // pointsHeap.insertInFile(file);
-                                // file.close();
-                                // cout << endl
-                                //      << "File present so we modified it up";
                             }
+
                             return;
                         }
                         else
@@ -771,6 +749,8 @@ public:
                                 if (file.tellg() == 0)
                                 {
                                     std::cout << "The file is empty." << std::endl;
+                                    file.close();
+                                    file.open("leaderboard.txt", ios::out);
                                     file << point - (end - start) << endl;
                                 }
                                 else
@@ -787,33 +767,9 @@ public:
                                     cout << endl
                                          << "Current situation of the heap is: ";
                                     pointsHeap.display();
+                                    pointsHeap.insertInFile(file);
                                 }
                                 file.close();
-                                exit(0);
-                                // file.open("leaderboard.txt", ios::in | std::ios::trunc);
-                                // float points;
-                                // string line;
-                                // while (!file.eof())
-                                // {
-                                //     // read points from file
-                                //     getline(file, line);
-                                //     cout << endl
-                                //          << "Line: " << line;
-
-                                //     // cout << endl
-                                //     //      << "Point: " << points;
-                                //     // pointsHeap.insert(points);
-                                // }
-                                // exit(0);
-                                // file.close();
-                                // file.open("leaderboard.txt", ios::out);
-                                // cout << endl
-                                //      << "Current situation of the heap is: ";
-                                // pointsHeap.display();
-                                // // pointsHeap.insertInFile(file);
-                                // file.close();
-                                // cout << endl
-                                //      << "File present so we modified it up";
                             }
 
                             return;
@@ -943,6 +899,8 @@ public:
                                 if (file.tellg() == 0)
                                 {
                                     std::cout << "The file is empty." << std::endl;
+                                    file.close();
+                                    file.open("leaderboard.txt", ios::out);
                                     file << point - (end - start) << endl;
                                 }
                                 else
@@ -959,34 +917,11 @@ public:
                                     cout << endl
                                          << "Current situation of the heap is: ";
                                     pointsHeap.display();
+                                    pointsHeap.insertInFile(file);
                                 }
                                 file.close();
-                                exit(0);
-                                // file.open("leaderboard.txt", ios::in | std::ios::trunc);
-                                // float points;
-                                // string line;
-                                // while (!file.eof())
-                                // {
-                                //     // read points from file
-                                //     getline(file, line);
-                                //     cout << endl
-                                //          << "Line: " << line;
-
-                                //     // cout << endl
-                                //     //      << "Point: " << points;
-                                //     // pointsHeap.insert(points);
-                                // }
-                                // exit(0);
-                                // file.close();
-                                // file.open("leaderboard.txt", ios::out);
-                                // cout << endl
-                                //      << "Current situation of the heap is: ";
-                                // pointsHeap.display();
-                                // // pointsHeap.insertInFile(file);
-                                // file.close();
-                                // cout << endl
-                                //      << "File present so we modified it up";
                             }
+
                             return;
                         }
                         else
@@ -1115,47 +1050,29 @@ public:
                                 if (file.tellg() == 0)
                                 {
                                     std::cout << "The file is empty." << std::endl;
+                                    file.close();
+                                    file.open("leaderboard.txt", ios::out);
                                     file << point - (end - start) << endl;
                                 }
                                 else
                                 {
                                     std::cout << "The file is not empty." << std::endl;
                                     float points;
-                                    while (file >> points) {
-                                        cout << endl << "Point: " << points;
+                                    while (file >> points)
+                                    {
+                                        cout << endl
+                                             << "Point: " << points;
                                         pointsHeap.insert(points);
                                     }
                                     pointsHeap.insert(point - (end - start));
-                                    cout << endl << "Current situation of the heap is: ";
+                                    cout << endl
+                                         << "Current situation of the heap is: ";
                                     pointsHeap.display();
+                                    pointsHeap.insertInFile(file);
                                 }
                                 file.close();
-                                exit(0);
-                                // file.open("leaderboard.txt", ios::in | std::ios::trunc);
-                                // float points;
-                                // string line;
-                                // while (!file.eof())
-                                // {
-                                //     // read points from file
-                                //     getline(file, line);
-                                //     cout << endl
-                                //          << "Line: " << line;
-
-                                //     // cout << endl
-                                //     //      << "Point: " << points;
-                                //     // pointsHeap.insert(points);
-                                // }
-                                // exit(0);
-                                // file.close();
-                                // file.open("leaderboard.txt", ios::out);
-                                // cout << endl
-                                //      << "Current situation of the heap is: ";
-                                // pointsHeap.display();
-                                // // pointsHeap.insertInFile(file);
-                                // file.close();
-                                // cout << endl
-                                //      << "File present so we modified it up";
                             }
+
                             return;
                         }
                         else

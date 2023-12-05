@@ -82,4 +82,15 @@ public:
         }
         cout << endl;
     }
+
+    void insertInFile(fstream& file) {
+        if (currentSize == 0) {
+            cout << "Heap is empty. Cannot insert elements in file." << endl;
+            return;
+        }
+
+        for (int i = 0; i < currentSize; i++) {
+            file << heapArray[i] << endl;
+        }
+    }
 };

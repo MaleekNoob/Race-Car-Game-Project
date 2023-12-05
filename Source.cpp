@@ -13,6 +13,7 @@ int main()
     {
         logo();
         menu();
+        Maze maze;
         cout << "Enter your choice: ";
         cin >> choice;
         cout << endl;
@@ -62,9 +63,10 @@ int main()
                         break;
                     }
 
-                    Maze maze;
+                    // Maze maze;
                     int rows, columns;
-                    cout << endl << "Enter the size of matrix: ";
+                    cout << endl
+                         << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
@@ -76,25 +78,28 @@ int main()
                 case '2':
                 {
                     cout << "You chose to play the automatic mode!" << endl;
-
-                    Maze maze;
                     int rows, columns;
-                    cout << endl << "Enter the size of matrix: ";
+                    cout << endl
+                         << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
-                    //maze.displayMaze();
+                    maze.displayMaze();
                     while (!maze.pathExists())
                     {
                         maze.generateMaze(rows, columns);
                     }
-                    //system("cls");
+                    system("cls");
                     cout << "Graph Generated: " << endl;
                     maze.displayMaze();
                     maze.autoMode();
                     break;
                 }
                 case '3':
+                    cout << "Leaderboard: " << endl;
+                    maze.LeaderBoard();
+                    break;
+                case '4':
                     cout << "You chose to return!" << endl;
                     break;
                 default:

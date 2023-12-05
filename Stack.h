@@ -10,13 +10,13 @@ private:
     struct Node
     {
         T data;
-        Node* next;
+        Node *next;
 
         Node() : data(NULL), next(nullptr) {}
-        Node(const T& value) : data(value), next(nullptr) {}
+        Node(const T &value) : data(value), next(nullptr) {}
     };
 
-    Node* top;
+    Node *top;
     int size;
 
 public:
@@ -27,9 +27,9 @@ public:
         clear();
     }
 
-    void push(const T& value)
+    void push(const T &value)
     {
-        Node* newNode = new Node(value);
+        Node *newNode = new Node(value);
         newNode->next = top;
         top = newNode;
         size++;
@@ -43,7 +43,7 @@ public:
         }
         else
         {
-            Node* temp = top;
+            Node *temp = top;
             T value = top->data;
             top = top->next;
             delete temp;
@@ -52,7 +52,7 @@ public:
         }
     }
 
-    T& peek()
+    T &peek()
     {
         return top->data;
     }
@@ -73,5 +73,16 @@ public:
         {
             pop();
         }
+    }
+
+    void print()
+    {
+        Node *current = top;
+        while (current != nullptr)
+        {
+            cout << current->data << endl;
+            current = current->next;
+        }
+        cout << endl;
     }
 };

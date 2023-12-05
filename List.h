@@ -275,7 +275,7 @@ void logo()
 
 void menu()
 {
-    cout << "Menu" << endl;
+    cout << "\nMenu" << endl;
     cout << "1. Start Game" << endl;
     cout << "2. Instructions" << endl;
     cout << "3. Exit" << endl;
@@ -286,7 +286,8 @@ void modes()
     cout << "Modes" << endl;
     cout << "1. Manual Mode" << endl;
     cout << "2. Automatic Mode" << endl;
-    cout << "3. Return" << endl;
+    cout << "3. Leaderboard" << endl;
+    cout << "4. Return" << endl;
 }
 
 void instructions()

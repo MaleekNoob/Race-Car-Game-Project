@@ -942,8 +942,18 @@ public:
 
     void LeaderBoard()
     {
-        cout << endl
-             << "Leaderboard: " << endl;
-        pointsHeap.display();
+        fstream outfile;
+        outfile.open("Leaderboard.txt", ios::app);
+        outfile.close();
+
+        fstream infile;
+        infile.open("Leaderboard.txt", ios::in);
+        int points;
+        while (infile >> points)
+        {
+            cout << endl
+                 << "Points: " << points << endl;
+        }
+        infile.close();
     }
 };

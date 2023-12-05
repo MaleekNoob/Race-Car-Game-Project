@@ -279,8 +279,7 @@ public:
             cout << " + ";
         }
     }
-    
-    
+        
     // Function to display the maze structure visually
     void displayMaze()
     {

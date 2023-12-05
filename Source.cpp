@@ -4,8 +4,9 @@
 #include "Graph.h"
 #include <iostream>
 #include <string>
-// #include <unistd.h>
+#include "Menu.h"
 #include <stdlib.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ int main()
     char choice;
     do
     {
+        system("cls");
         logo();
         menu();
         Maze maze;
@@ -68,20 +70,19 @@ int main()
                     // Maze maze;
                     int rows, columns;
                     cout << endl
-                         << "Enter the size of matrix: ";
+                        << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
                     maze.manualMode();
-
+                    Sleep(2000);
                     break;
                 }
                 case '2':
                 {
-                    cout << "You chose to play the automatic mode!" << endl;
                     int rows, columns;
                     cout << endl
-                         << "Enter the size of matrix: ";
+                        << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
@@ -94,11 +95,14 @@ int main()
                     system("cls");
                     maze.displayMaze();
                     maze.autoMode();
+                    Sleep(2000);
                     break;
                 }
                 case '3':
-                    cout << "Leaderboard: " << endl;
+                    system("cls");
+                    logo();
                     maze.LeaderBoard();
+                    Sleep(1000);
                     break;
                 case '4':
                     cout << "You chose to return!" << endl;
@@ -129,9 +133,11 @@ int main()
             break;
         case '3':
             cout << "Thank You!" << endl;
+            Sleep(1000);
             break;
         default:
             cout << "Invalid choice!" << endl;
+            Sleep(1000);
             break;
         }
     } while (choice != '3');

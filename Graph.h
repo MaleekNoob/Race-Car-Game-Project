@@ -1108,10 +1108,10 @@ public:
         }
     }
 
-    bool pathExists()
+    bool pathExists(bool isfirst = true)
     {
         static int run_once, x_start, y_start, x_goal, y_goal;
-        if (run_once == 0)
+        if (isfirst == true)
         {
             cout << endl
                  << "Enter Start x and y coordinates: ";

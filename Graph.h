@@ -802,8 +802,6 @@ public:
 
             while (neighbors != nullptr)
             {
-                cout << endl
-                     << "\tNeighbor: " << neighbors->data->getX() << ", " << neighbors->data->getY() << endl;
                 if (neighbors->data->getWeight() < current->getWeight() && !check1.search(neighbors->data))
                 {
                     current = neighbors->data;
@@ -830,8 +828,6 @@ public:
         List<Trophy> trophiesList;
         GraphNode temp = getCarNodeObject();
         Stack<GraphNode *> stack = shortestpath();
-        cout << endl
-             << "Path: " << endl;
         temp.setCar(false);
         temp.setPath(true);
         while (!stack.isEmpty())

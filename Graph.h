@@ -908,12 +908,6 @@ public:
                     break;
                 }
                 neighbors = neighbors->next;
-
-                // If no suitable neighbor is found, pop from the stack.
-                if (neighbors == nullptr)
-                {
-                    current = stack.pop();
-                }
             }
         }
 
@@ -1020,18 +1014,13 @@ public:
         trophies++;
 
         // Display the final game statistics
-        cout << endl
-             << "Game Statistics: " << endl;
-        cout << endl
-             << "Points: " << point;
-        cout << endl
-             << "Coins: " << coins;
-        cout << endl
-             << "Trophies: " << trophies << endl;
+        cout << endl << "Game Statistics: " << endl;
+        cout << endl << "Points: " << point;
+        cout << endl << "Coins: " << coins;
+        cout << endl << "Trophies: " << trophies << endl;
 
         // Display the list of collected coins
-        cout << endl
-             << "Coins List: " << endl;
+        cout << endl << "Coins List: " << endl;
         Node<Coin> *coin_traverse = coinsList.getHead();
         while (coin_traverse != nullptr)
         {

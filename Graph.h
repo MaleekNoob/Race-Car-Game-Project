@@ -448,6 +448,150 @@ public:
         return false;
     }
 
+    void setNode(GraphNode *node, float &point, int &coins, int &trophies, List<Coin> &coinsList, List<Trophy> &trophiesList, GraphNode* CarNode)
+    {
+
+        if (node->isObstacle())
+        {
+            point -= 10;
+            obstacles.enqueue(Obstacle("Obstacle"));
+            node->setObstacle(false);
+        }
+        else if (node->isDebrisObstacle())
+        {
+            point -= 5;
+            obstacles.enqueue(Obstacle("Debris"));
+            node->setDebrisObstacle(false);
+        }
+        else if (node->isOilSpillObstacle())
+        {
+            point -= 2;
+            obstacles.enqueue(Obstacle("Oil Spill"));
+            node->setOilSpillObstacle(false);
+        }
+        else if (node->isCoin50())
+        {
+            point += 5;
+            coins += 50;
+            coinsList.push_back(Coin(50));
+            node->setCoin50(false);
+        }
+        else if (node->isCoin100())
+        {
+            point += 5;
+            coins += 100;
+            coinsList.push_back(Coin(100));
+            node->setCoin100(false);
+        }
+        else if (node->isCoin150())
+        {
+            point += 5;
+            coins += 150;
+            coinsList.push_back(Coin(150));
+            node->setCoin150(false);
+        }
+        else if (node->isTrophy())
+        {
+            point += 100;
+            coins += 250;
+            trophies++;
+            trophiesList.push_back(Trophy(250));
+            node->setTrophy(false);
+        }
+        else if (node->isGoal())
+        {
+            point += 1000;
+            coins += 250;
+            trophies++;
+            end = gettime();
+
+            cout << endl
+                 << "You won the game!" << endl;
+            cout << endl
+                 << "Game Statistics: " << endl;
+            cout << endl
+                 << "Points: " << point - (end - start);
+            pointsHeap.insert(point - (end - start));
+            cout << endl
+                 << "Coins: " << coins;
+            cout << endl
+                 << "Trophies: " << trophies << endl;
+            cout << endl
+                 << "Total time taken: ";
+            DisplaySecondsInMinutes(end - start);
+            cout << endl
+                 << "Coins List: " << endl;
+
+            Node<Coin> *coin_traverse = coinsList.getHead();
+            while (coin_traverse != nullptr)
+            {
+                cout << coin_traverse->data.getValue() << " ";
+                coin_traverse = coin_traverse->next;
+            }
+            cout << endl
+                 << "Trophies List: " << endl;
+            Node<Trophy> *trophy_traverse = trophiesList.getHead();
+            while (trophy_traverse != nullptr)
+            {
+                cout << trophy_traverse->data.getValue() << " ";
+                trophy_traverse = trophy_traverse->next;
+            }
+
+            fstream file;
+            file.open("leaderboard.txt", ios::in);
+
+            if (!file)
+            {
+                file.open("leaderboard.txt", ios::out);
+                file << point - (end - start) << endl;
+                file.close();
+                cout << endl
+                     << "File not present so we made it up";
+            }
+            else
+            {
+                // Check if the file is empty
+                file.seekg(0, std::ios::end); // Move to the end of the file
+                if (file.tellg() == 0)
+                {
+                    std::cout << "The file is empty." << std::endl;
+                    file.close();
+                    file.open("leaderboard.txt", ios::out);
+                    file << point - (end - start) << endl;
+                }
+                else
+                {
+                    file.open("leaderboard.txt", ios::out | ios::trunc);
+                    std::cout << "The file is not empty." << std::endl;
+                    float points;
+                    while (file >> points)
+                    {
+                        cout << endl
+                             << "Point: " << points;
+                        pointsHeap.insert(points);
+                    }
+                    pointsHeap.insert(point - (end - start));
+                    cout << endl
+                         << "Current situation of the heap is: ";
+                    pointsHeap.display();
+                    pointsHeap.insertInFile(file);
+                }
+                file.close();
+                string garbage;
+                cin >> garbage;
+            }
+
+            return;
+        }
+        else
+        {
+            point += 5;
+        }
+
+        CarNode->setCar(false);
+        node->setCar(true);
+    }
+
     void manualMode()
     {
         float point = 0;
@@ -490,143 +634,7 @@ public:
                 {
                     if (neighbors->data->getY() == carNode->getY() - 1 && neighbors->data->getX() == carNode->getX())
                     {
-
-                        if (neighbors->data->isObstacle())
-                        {
-                            point -= 10;
-                            obstacles.enqueue(Obstacle("Obstacle"));
-                            neighbors->data->setObstacle(false);
-                        }
-                        else if (neighbors->data->isDebrisObstacle())
-                        {
-                            point -= 5;
-                            obstacles.enqueue(Obstacle("Debris"));
-                            neighbors->data->setDebrisObstacle(false);
-                        }
-                        else if (neighbors->data->isOilSpillObstacle())
-                        {
-                            point -= 2;
-                            obstacles.enqueue(Obstacle("Oil Spill"));
-                            neighbors->data->setOilSpillObstacle(false);
-                        }
-                        else if (neighbors->data->isCoin50())
-                        {
-                            point += 5;
-                            coins += 50;
-                            coinsList.push_back(Coin(50));
-                            neighbors->data->setCoin50(false);
-                        }
-                        else if (neighbors->data->isCoin100())
-                        {
-                            point += 5;
-                            coins += 100;
-                            coinsList.push_back(Coin(100));
-                            neighbors->data->setCoin100(false);
-                        }
-                        else if (neighbors->data->isCoin150())
-                        {
-                            point += 5;
-                            coins += 150;
-                            coinsList.push_back(Coin(150));
-                            neighbors->data->setCoin150(false);
-                        }
-                        else if (neighbors->data->isTrophy())
-                        {
-                            point += 100;
-                            coins += 250;
-                            trophies++;
-                            trophiesList.push_back(Trophy(250));
-                            neighbors->data->setTrophy(false);
-                        }
-                        else if (neighbors->data->isGoal())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            end = gettime();
-
-                            cout << endl
-                                 << "You won the game!" << endl;
-                            cout << endl
-                                 << "Game Statistics: " << endl;
-                            cout << endl
-                                 << "Points: " << point - (end - start);
-                            pointsHeap.insert(point - (end - start));
-                            cout << endl
-                                 << "Coins: " << coins;
-                            cout << endl
-                                 << "Trophies: " << trophies << endl;
-                            cout << endl
-                                 << "Total time taken: ";
-                            DisplaySecondsInMinutes(end - start);
-                            cout << endl
-                                 << "Coins List: " << endl;
-
-                            Node<Coin> *coin_traverse = coinsList.getHead();
-                            while (coin_traverse != nullptr)
-                            {
-                                cout << coin_traverse->data.getValue() << " ";
-                                coin_traverse = coin_traverse->next;
-                            }
-                            cout << endl
-                                 << "Trophies List: " << endl;
-                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
-                            while (trophy_traverse != nullptr)
-                            {
-                                cout << trophy_traverse->data.getValue() << " ";
-                                trophy_traverse = trophy_traverse->next;
-                            }
-
-                            fstream file;
-                            file.open("leaderboard.txt", ios::in);
-
-                            if (!file)
-                            {
-                                file.open("leaderboard.txt", ios::out);
-                                file << point - (end - start) << endl;
-                                file.close();
-                                cout << endl
-                                     << "File not present so we made it up";
-                            }
-                            else
-                            {
-                                // Check if the file is empty
-                                file.seekg(0, std::ios::end); // Move to the end of the file
-                                if (file.tellg() == 0)
-                                {
-                                    std::cout << "The file is empty." << std::endl;
-                                    file.close();
-                                    file.open("leaderboard.txt", ios::out);
-                                    file << point - (end - start) << endl;
-                                }
-                                else
-                                {
-                                    std::cout << "The file is not empty." << std::endl;
-                                    float points;
-                                    while (file >> points)
-                                    {
-                                        cout << endl
-                                             << "Point: " << points;
-                                        pointsHeap.insert(points);
-                                    }
-                                    pointsHeap.insert(point - (end - start));
-                                    cout << endl
-                                         << "Current situation of the heap is: ";
-                                    pointsHeap.display();
-                                    pointsHeap.insertInFile(file);
-                                }
-                                file.close();
-                            }
-
-                            return;
-                        }
-                        else
-                        {
-                            point += 5;
-                        }
-
-                        carNode->setCar(false);
-                        neighbors->data->setCar(true);
+                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
                         break;
                     }
                     neighbors = neighbors->next;
@@ -640,148 +648,7 @@ public:
                 {
                     if (neighbors->data->getX() == carNode->getX() - 1 && neighbors->data->getY() == carNode->getY())
                     {
-
-                        if (neighbors->data->isObstacle())
-                        {
-                            point -= 10;
-                            obstacles.enqueue(Obstacle("Obstacle"));
-                            neighbors->data->setObstacle(false);
-                        }
-                        else if (neighbors->data->isDebrisObstacle())
-                        {
-                            point -= 5;
-                            obstacles.enqueue(Obstacle("Debris"));
-                            neighbors->data->setDebrisObstacle(false);
-                        }
-                        else if (neighbors->data->isOilSpillObstacle())
-                        {
-                            point -= 2;
-                            obstacles.enqueue(Obstacle("Oil Spill"));
-                            neighbors->data->setOilSpillObstacle(false);
-                        }
-                        else if (neighbors->data->isCoin50())
-                        {
-                            point += 5;
-                            coins += 50;
-                            coinsList.push_back(Coin(50));
-                            neighbors->data->setCoin50(false);
-                        }
-                        else if (neighbors->data->isCoin100())
-                        {
-                            point += 5;
-                            coins += 100;
-                            coinsList.push_back(Coin(100));
-                            neighbors->data->setCoin100(false);
-                        }
-                        else if (neighbors->data->isCoin150())
-                        {
-                            point += 5;
-                            coins += 150;
-                            coinsList.push_back(Coin(150));
-                            neighbors->data->setCoin150(false);
-                        }
-                        else if (neighbors->data->isTrophy())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            trophiesList.push_back(Trophy(250));
-                            neighbors->data->setTrophy(false);
-                        }
-                        else if (neighbors->data->isGoal())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            end = gettime();
-
-                            cout << endl
-                                 << "You won the game!" << endl;
-                            cout << endl
-                                 << "Game Statistics: " << endl;
-                            cout << endl
-                                 << "Points: " << point - (end - start);
-                            pointsHeap.insert(point - (end - start));
-                            cout << endl
-                                 << "Coins: " << coins;
-                            cout << endl
-                                 << "Trophies: " << trophies << endl;
-                            cout << endl
-                                 << "Total time taken: ";
-                            DisplaySecondsInMinutes(end - start);
-
-                            cout << endl
-                                 << "Coins List: " << endl;
-                            Node<Coin> *coin_traverse = coinsList.getHead();
-                            while (coin_traverse != nullptr)
-                            {
-                                cout << coin_traverse->data.getValue() << " ";
-                                coin_traverse = coin_traverse->next;
-                            }
-                            cout << endl
-                                 << "Trophies List: " << endl;
-                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
-                            while (trophy_traverse != nullptr)
-                            {
-                                cout << trophy_traverse->data.getValue() << " ";
-                                trophy_traverse = trophy_traverse->next;
-                            }
-
-                            // read leaderboard.txt
-                            // if file not found then create one
-                            // else read the file and store points in heap
-                            // rewrite the file with points stored in heap
-
-                            fstream file;
-                            file.open("leaderboard.txt", ios::in);
-
-                            if (!file)
-                            {
-                                file.open("leaderboard.txt", ios::out);
-                                file << point - (end - start) << endl;
-                                file.close();
-                                cout << endl
-                                     << "File not present so we made it up";
-                            }
-                            else
-                            {
-                                // Check if the file is empty
-                                file.seekg(0, std::ios::end); // Move to the end of the file
-                                if (file.tellg() == 0)
-                                {
-                                    std::cout << "The file is empty." << std::endl;
-                                    file.close();
-                                    file.open("leaderboard.txt", ios::out);
-                                    file << point - (end - start) << endl;
-                                }
-                                else
-                                {
-                                    std::cout << "The file is not empty." << std::endl;
-                                    float points;
-                                    while (file >> points)
-                                    {
-                                        cout << endl
-                                             << "Point: " << points;
-                                        pointsHeap.insert(points);
-                                    }
-                                    pointsHeap.insert(point - (end - start));
-                                    cout << endl
-                                         << "Current situation of the heap is: ";
-                                    pointsHeap.display();
-                                    pointsHeap.insertInFile(file);
-                                }
-                                file.close();
-                            }
-
-                            return;
-                        }
-                        else
-                        {
-                            point += 5;
-                        }
-
-                        carNode->setCar(false);
-                        neighbors->data->setCar(true);
+                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
                         break;
                     }
                     neighbors = neighbors->next;
@@ -795,143 +662,7 @@ public:
                 {
                     if (neighbors->data->getX() == carNode->getX() + 1 && neighbors->data->getY() == carNode->getY())
                     {
-
-                        if (neighbors->data->isObstacle())
-                        {
-                            point -= 10;
-                            obstacles.enqueue(Obstacle("Obstacle"));
-                            neighbors->data->setObstacle(false);
-                        }
-                        else if (neighbors->data->isDebrisObstacle())
-                        {
-                            point -= 5;
-                            obstacles.enqueue(Obstacle("Debris"));
-                            neighbors->data->setDebrisObstacle(false);
-                        }
-                        else if (neighbors->data->isOilSpillObstacle())
-                        {
-                            point -= 2;
-                            obstacles.enqueue(Obstacle("Oil Spill"));
-                            neighbors->data->setOilSpillObstacle(false);
-                        }
-                        else if (neighbors->data->isCoin50())
-                        {
-                            point += 5;
-                            coins += 50;
-                            coinsList.push_back(Coin(50));
-                            neighbors->data->setCoin50(false);
-                        }
-                        else if (neighbors->data->isCoin100())
-                        {
-                            point += 5;
-                            coins += 100;
-                            coinsList.push_back(Coin(100));
-                            neighbors->data->setCoin100(false);
-                        }
-                        else if (neighbors->data->isCoin150())
-                        {
-                            point += 5;
-                            coins += 150;
-                            coinsList.push_back(Coin(150));
-                            neighbors->data->setCoin150(false);
-                        }
-                        else if (neighbors->data->isTrophy())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            trophiesList.push_back(Trophy(250));
-                            neighbors->data->setTrophy(false);
-                        }
-                        else if (neighbors->data->isGoal())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            end = gettime();
-
-                            cout << endl
-                                 << "You won the game!" << endl;
-                            cout << endl
-                                 << "Game Statistics: " << endl;
-                            cout << endl
-                                 << "Points: " << point - (end - start);
-                            pointsHeap.insert(point - (end - start));
-                            cout << endl
-                                 << "Coins: " << coins;
-                            cout << endl
-                                 << "Trophies: " << trophies << endl;
-                            cout << endl
-                                 << "Total time taken: ";
-                            DisplaySecondsInMinutes(end - start);
-
-                            cout << endl
-                                 << "Coins List: " << endl;
-                            Node<Coin> *coin_traverse = coinsList.getHead();
-                            while (coin_traverse != nullptr)
-                            {
-                                cout << coin_traverse->data.getValue() << " ";
-                                coin_traverse = coin_traverse->next;
-                            }
-                            cout << endl
-                                 << "Trophies List: " << endl;
-                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
-                            while (trophy_traverse != nullptr)
-                            {
-                                cout << trophy_traverse->data.getValue() << " ";
-                                trophy_traverse = trophy_traverse->next;
-                            }
-
-                            fstream file;
-                            file.open("leaderboard.txt", ios::in);
-
-                            if (!file)
-                            {
-                                file.open("leaderboard.txt", ios::out);
-                                file << point - (end - start) << endl;
-                                file.close();
-                                cout << endl
-                                     << "File not present so we made it up";
-                            }
-                            else
-                            {
-                                // Check if the file is empty
-                                file.seekg(0, std::ios::end); // Move to the end of the file
-                                if (file.tellg() == 0)
-                                {
-                                    std::cout << "The file is empty." << std::endl;
-                                    file.close();
-                                    file.open("leaderboard.txt", ios::out);
-                                    file << point - (end - start) << endl;
-                                }
-                                else
-                                {
-                                    std::cout << "The file is not empty." << std::endl;
-                                    float points;
-                                    while (file >> points)
-                                    {
-                                        cout << endl
-                                             << "Point: " << points;
-                                        pointsHeap.insert(points);
-                                    }
-                                    pointsHeap.insert(point - (end - start));
-                                    cout << endl
-                                         << "Current situation of the heap is: ";
-                                    pointsHeap.display();
-                                    pointsHeap.insertInFile(file);
-                                }
-                                file.close();
-                            }
-
-                            return;
-                        }
-                        else
-                        {
-                            point += 5;
-                        }
-
-                        carNode->setCar(false);
-                        neighbors->data->setCar(true);
+                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
                         break;
                     }
                     neighbors = neighbors->next;
@@ -945,144 +676,7 @@ public:
                 {
                     if (neighbors->data->getY() == carNode->getY() + 1 && neighbors->data->getX() == carNode->getX())
                     {
-
-                        if (neighbors->data->isObstacle())
-                        {
-                            point -= 10;
-                            obstacles.enqueue(Obstacle("Obstacle"));
-                            neighbors->data->setObstacle(false);
-                        }
-                        else if (neighbors->data->isDebrisObstacle())
-                        {
-                            point -= 5;
-                            obstacles.enqueue(Obstacle("Debris"));
-                            neighbors->data->setDebrisObstacle(false);
-                        }
-                        else if (neighbors->data->isOilSpillObstacle())
-                        {
-                            point -= 2;
-                            obstacles.enqueue(Obstacle("Oil Spill"));
-                            neighbors->data->setOilSpillObstacle(false);
-                        }
-                        else if (neighbors->data->isCoin50())
-                        {
-                            point += 5;
-                            coins += 50;
-                            coinsList.push_back(Coin(50));
-                            neighbors->data->setCoin50(false);
-                        }
-                        else if (neighbors->data->isCoin100())
-                        {
-                            point += 5;
-                            coins += 100;
-                            coinsList.push_back(Coin(100));
-                            neighbors->data->setCoin100(false);
-                        }
-                        else if (neighbors->data->isCoin150())
-                        {
-                            point += 5;
-                            coins += 150;
-                            coinsList.push_back(Coin(150));
-                            neighbors->data->setCoin150(false);
-                        }
-                        else if (neighbors->data->isTrophy())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            trophiesList.push_back(Trophy(250));
-                            neighbors->data->setTrophy(false);
-                        }
-                        else if (neighbors->data->isGoal())
-                        {
-                            point += 1000;
-                            coins += 250;
-                            trophies++;
-                            end = gettime();
-
-                            cout << endl
-                                 << "You won the game!" << endl;
-                            cout << endl
-                                 << "Game Statistics: " << endl;
-                            cout << endl
-                                 << "Points: " << point - (end - start);
-                            pointsHeap.insert(point - (end - start));
-                            cout << endl
-                                 << "Coins: " << coins;
-                            cout << endl
-                                 << "Trophies: " << trophies << endl;
-                            cout << endl
-                                 << "Total time taken: ";
-                            DisplaySecondsInMinutes(end - start);
-                            cout << endl
-                                 << "Coins List: " << endl
-                                 << endl;
-
-                            Node<Coin> *coin_traverse = coinsList.getHead();
-                            while (coin_traverse != nullptr)
-                            {
-                                cout << coin_traverse->data.getValue() << " ";
-                                coin_traverse = coin_traverse->next;
-                            }
-                            cout << endl
-                                 << "Trophies List: " << endl;
-                            Node<Trophy> *trophy_traverse = trophiesList.getHead();
-                            while (trophy_traverse != nullptr)
-                            {
-                                cout << trophy_traverse->data.getValue() << " ";
-                                trophy_traverse = trophy_traverse->next;
-                            }
-
-                            fstream file;
-                            file.open("leaderboard.txt", ios::in);
-
-                            if (!file)
-                            {
-                                file.open("leaderboard.txt", ios::out);
-                                file << point - (end - start) << endl;
-                                file.close();
-                                cout << endl
-                                     << "File not present so we made it up";
-                            }
-                            else
-                            {
-                                // Check if the file is empty
-                                file.seekg(0, std::ios::end); // Move to the end of the file
-                                if (file.tellg() == 0)
-                                {
-                                    std::cout << "The file is empty." << std::endl;
-                                    file.close();
-                                    file.open("leaderboard.txt", ios::out);
-                                    file << point - (end - start) << endl;
-                                }
-                                else
-                                {
-                                    std::cout << "The file is not empty." << std::endl;
-                                    float points;
-                                    while (file >> points)
-                                    {
-                                        cout << endl
-                                             << "Point: " << points;
-                                        pointsHeap.insert(points);
-                                    }
-                                    pointsHeap.insert(point - (end - start));
-                                    cout << endl
-                                         << "Current situation of the heap is: ";
-                                    pointsHeap.display();
-                                    pointsHeap.insertInFile(file);
-                                }
-                                file.close();
-                            }
-
-                            return;
-                        }
-                        else
-                        {
-                            point += 5;
-                        }
-
-                        carNode->setCar(false);
-                        neighbors->data->setCar(true);
+                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
                         break;
                     }
                     neighbors = neighbors->next;

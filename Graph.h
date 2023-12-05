@@ -451,7 +451,7 @@ public:
         return false;
     }
 
-    void setNode(GraphNode *node, float &point, int &coins, int &trophies, List<Coin> &coinsList, List<Trophy> &trophiesList, GraphNode* CarNode)
+    bool setNode(GraphNode *node, float &point, int &coins, int &trophies, List<Coin> &coinsList, List<Trophy> &trophiesList, GraphNode* CarNode)
     {
 
         if (node->isObstacle())
@@ -539,52 +539,31 @@ public:
                 cout << trophy_traverse->data.getValue() << " ";
                 trophy_traverse = trophy_traverse->next;
             }
+            
+            fstream outfile;
+            outfile.open("Leaderboard.txt", ios::app);
+            outfile << point - (end - start) << endl;
+            outfile.close();
 
-            fstream file;
-            file.open("leaderboard.txt", ios::in);
-
-            if (!file)
+            fstream infile;
+            infile.open("Leaderboard.txt", ios::in);
+            int points;
+            while (infile >> points)
             {
-                file.open("leaderboard.txt", ios::out);
-                file << point - (end - start) << endl;
-                file.close();
-                cout << endl
-                     << "File not present so we made it up";
+                cout << endl << "Points: " << points << endl;
+                pointsHeap.insert(points);
             }
-            else
-            {
-                // Check if the file is empty
-                file.seekg(0, std::ios::end); // Move to the end of the file
-                if (file.tellg() == 0)
-                {
-                    std::cout << "The file is empty." << std::endl;
-                    file.close();
-                    file.open("leaderboard.txt", ios::out);
-                    file << point - (end - start) << endl;
-                }
-                else
-                {
-                    file.open("leaderboard.txt", ios::out | ios::trunc);
-                    std::cout << "The file is not empty." << std::endl;
-                    float points;
-                    while (file >> points)
-                    {
-                        cout << endl
-                             << "Point: " << points;
-                        pointsHeap.insert(points);
-                    }
-                    pointsHeap.insert(point - (end - start));
-                    cout << endl
-                         << "Current situation of the heap is: ";
-                    pointsHeap.display();
-                    pointsHeap.insertInFile(file);
-                }
-                file.close();
-                string garbage;
-                cin >> garbage;
-            }
+            this_thread::sleep_for(chrono::milliseconds(3500));
+            infile.close();
 
-            return;
+            fstream outfile1;
+            outfile1.open("Leaderboard.txt", ios::out | ios::trunc);
+            while (pointsHeap.isEmpty() != true)
+            {
+                outfile1 << pointsHeap.remove() << endl;
+            }
+            outfile1.close();
+            return true;
         }
         else
         {
@@ -593,6 +572,7 @@ public:
 
         CarNode->setCar(false);
         node->setCar(true);
+        return false;
     }
 
     void manualMode()
@@ -637,7 +617,11 @@ public:
                 {
                     if (neighbors->data->getY() == carNode->getY() - 1 && neighbors->data->getX() == carNode->getX())
                     {
-                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        bool toreturn = setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        if (toreturn)
+                        {
+                            return;
+                        }
                         break;
                     }
                     neighbors = neighbors->next;
@@ -651,7 +635,11 @@ public:
                 {
                     if (neighbors->data->getX() == carNode->getX() - 1 && neighbors->data->getY() == carNode->getY())
                     {
-                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        bool toReturn = setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        if (toReturn)
+                        {
+                            return;
+                        }
                         break;
                     }
                     neighbors = neighbors->next;
@@ -665,7 +653,10 @@ public:
                 {
                     if (neighbors->data->getX() == carNode->getX() + 1 && neighbors->data->getY() == carNode->getY())
                     {
-                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        bool toReturn = setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        if (toReturn) {
+                            return;
+                        }
                         break;
                     }
                     neighbors = neighbors->next;
@@ -679,7 +670,10 @@ public:
                 {
                     if (neighbors->data->getY() == carNode->getY() + 1 && neighbors->data->getX() == carNode->getX())
                     {
-                        setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        bool toReturn = setNode(neighbors->data, point, coins, trophies, coinsList, trophiesList, carNode);
+                        if (toReturn) {
+                            return;
+                        }
                         break;
                     }
                     neighbors = neighbors->next;

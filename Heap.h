@@ -23,6 +23,11 @@ public:
         delete[] heapArray;
     }
 
+    bool isEmpty()
+    {
+        return currentSize == 0;
+    }
+
     void insert(int value)
     {
         if (currentSize == maxSize)

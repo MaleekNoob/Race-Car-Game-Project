@@ -590,6 +590,7 @@ public:
             generateMaze(width, length);
             isfirst = false;
         }
+        system("cls");
         displayMaze();
 
         start = gettime();
@@ -597,12 +598,9 @@ public:
         {
             GraphNode *carNode = getCarNode();
             // Display carNode neighbors
-            cout << endl
-                 << "Neighbors: ";
             Node<GraphNode *> *neighbors = carNode->getNeighbors();
             while (neighbors != nullptr)
             {
-                cout << "(" << neighbors->data->getX() << ", " << neighbors->data->getY() << ") ";
                 neighbors = neighbors->next;
             }
             key = _getch(); // Get the pressed key

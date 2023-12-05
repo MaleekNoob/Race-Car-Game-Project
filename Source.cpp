@@ -20,11 +20,11 @@ int main()
         switch (choice)
         {
         case '1':
-            cout << "You chose to play the game!" << endl;
-
             char mode;
             do
             {
+                system("cls");
+                logo();
                 modes();
                 cout << "Enter your choice: ";
                 cin >> mode;
@@ -33,7 +33,6 @@ int main()
                 case '1':
                 {
                     int choice;
-                    cout << "You chose to play the manual mode!" << endl;
                     cout << "Choose complexity: " << endl;
                     cout << "1. Easy" << endl;
                     cout << "2. Medium" << endl;
@@ -70,7 +69,6 @@ int main()
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
-                    maze.displayMaze();
                     maze.manualMode();
 
                     break;
@@ -84,13 +82,13 @@ int main()
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
-                    maze.displayMaze();
-                    while (!maze.pathExists())
+                    bool isfirst = true;
+                    while (!maze.pathExists(isfirst))
                     {
                         maze.generateMaze(rows, columns);
+                        isfirst = false;
                     }
                     system("cls");
-                    cout << "Graph Generated: " << endl;
                     maze.displayMaze();
                     maze.autoMode();
                     break;
@@ -110,7 +108,7 @@ int main()
 
             break;
         case '2':
-            cout << "You chose to see the instructions!" << endl;
+            logo();
             instructions();
             char instructions;
             do
@@ -119,7 +117,6 @@ int main()
                 switch (instructions)
                 {
                 case 'E':
-                    cout << "You chose to exit the instructions!" << endl;
                     break;
                 default:
                     cout << "Invalid choice!" << endl;
@@ -128,7 +125,7 @@ int main()
             } while (instructions != 'E');
             break;
         case '3':
-            cout << "You chose to exit the game!" << endl;
+            cout << "Thank You!" << endl;
             break;
         default:
             cout << "Invalid choice!" << endl;

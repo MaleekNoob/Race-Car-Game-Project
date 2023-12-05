@@ -896,27 +896,19 @@ public:
         coins += 250;
         trophies++;
 
-        cout << endl
-             << "You won the game!" << endl;
-        cout << endl
-             << "Game Statistics: " << endl;
-        cout << endl
-             << "Points: " << point;
-        cout << endl
-             << "Coins: " << coins;
-        cout << endl
-             << "Trophies: " << trophies << endl;
+        cout << endl << "Game Statistics: " << endl;
+        cout << endl << "Points: " << point;
+        cout << endl << "Coins: " << coins;
+        cout << endl << "Trophies: " << trophies << endl;
 
-        cout << endl
-             << "Coins List: " << endl;
+        cout << endl << "Coins List: " << endl;
         Node<Coin> *coin_traverse = coinsList.getHead();
         while (coin_traverse != nullptr)
         {
             cout << coin_traverse->data.getValue() << " ";
             coin_traverse = coin_traverse->next;
         }
-        cout << endl
-             << "Trophies List: " << endl;
+        cout << endl << "Trophies List: " << endl;
         Node<Trophy> *trophy_traverse = trophiesList.getHead();
         while (trophy_traverse != nullptr)
         {

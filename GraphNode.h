@@ -18,7 +18,6 @@ class GraphNode
     bool visited;
     bool path;
     int weight;
-    List<GraphNode*> adjList;
 
 public:
     GraphNode()
@@ -38,7 +37,6 @@ public:
         Coin150 = false;
         Trophy = false;
         weight = 10000;
-        adjList = List<GraphNode*>();
         path = false;
     }
 
@@ -59,7 +57,6 @@ public:
         Coin150 = false;
         Trophy = false;
         weight = 10000;
-        adjList = List<GraphNode*>();
         path = false;
     }
 
@@ -87,13 +84,6 @@ public:
         visited = other.visited;
         path = other.path;
         weight = other.weight;
-        adjList = List<GraphNode*>();
-        const Node<GraphNode*>* current2 = other.adjList.getHead();
-        while (current2 != nullptr)
-        {
-            adjList.push_back(current2->data);
-            current2 = current2->next;
-        }
     }
 
     void displayNeighbors()
@@ -109,19 +99,6 @@ public:
     void removeNeighbor(GraphNode* node)
     {
         neighbors.remove(node);
-    }
-
-    void addAdj(GraphNode* node)
-    {
-        adjList.push_back(node);
-    }
-    void removeAdj(GraphNode* node)
-    {
-        adjList.remove(node);
-    }
-    void displayAdj()
-    {
-        adjList.display();
     }
     // getters and setters
     int getX()
@@ -271,11 +248,6 @@ public:
     Node<GraphNode*>* getNeighbors()
     {
         return neighbors.getHead();
-    }
-
-    Node<GraphNode*>* getAdj()
-    {
-        return adjList.getHead();
     }
 
     bool operator==(GraphNode& node)

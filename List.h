@@ -1,3 +1,6 @@
+#ifndef LIST_H
+#define LIST_H
+
 #include <iostream>
 #include <string>
 #include <thread>
@@ -306,3 +309,5 @@ void instructions()
     cout << "Right: D" << endl;
     cout << "Press E to exit!" << endl;
 }
+
+#endif

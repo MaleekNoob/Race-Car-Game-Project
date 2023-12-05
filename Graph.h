@@ -183,37 +183,6 @@ public:
         }
     }
 
-    void setStartAndGoal()
-    {
-        int x_start, y_start, x_goal, y_goal;
-        cout << endl
-             << "Enter Start x and y coordinates: ";
-        cin >> x_start >> y_start;
-        while (x_start >= width || y_start >= length || x_start < 0 || y_start < 0)
-        {
-            cout << endl
-                 << "Invalid start node!" << endl;
-            cout << endl
-                 << "Enter start node x and y components: ";
-            cin >> x_start >> y_start;
-        }
-
-        cout << endl
-             << "Enter Goal x and y coordinates: ";
-        cin >> x_goal >> y_goal;
-        while (y_goal >= width || y_goal >= length || x_goal < 0 || y_goal < 0)
-        {
-            cout << endl
-                 << "Invalid goal node!" << endl;
-            cout << endl
-                 << "Enter goal node x and y components: ";
-            cin >> x_goal >> y_goal;
-        }
-
-        maze[x_start][y_start].setCar(true);
-        maze[x_goal][y_goal].setGoal(true);
-    }
-
     void makeEdges(GraphNode &node)
     {
         // Seed the random number generator with a time-based seed
@@ -491,15 +460,6 @@ public:
         bool isfirst = true;
         
         while (!pathExists(isfirst)) {
-        float point = 0;
-        int coins = 0;
-        int trophies = 0;
-        char key;
-        List<Coin> coinsList;
-        List<Trophy> trophiesList;
-
-        do
-        {
             generateMaze(width, length);
             isfirst = false;
         }
@@ -1299,8 +1259,7 @@ public:
 
             while (neighbors != nullptr)
             {
-                cout << endl
-                     << "\tNeighbor: " << neighbors->data->getX() << ", " << neighbors->data->getY() << endl;
+                cout << endl << "\tNeighbor: " << neighbors->data->getX() << ", " << neighbors->data->getY() << endl;
                 if (neighbors->data->getWeight() < current->getWeight() && !check1.search(neighbors->data))
                 {
                     current = neighbors->data;
@@ -1326,20 +1285,13 @@ public:
         List<Coin> coinsList;
         List<Trophy> trophiesList;
         GraphNode temp = getCarNodeObject();
-        Stack<GraphNode *> stack = shortestpath();
-        stack.print();
-        exit(0);
-        cout << endl
-             << "Path: " << endl;
         Stack<GraphNode*> stack = shortestpath();
+        cout << endl << "Path: " << endl;
         temp.setCar(false);
         temp.setPath(true);
         while (!stack.isEmpty())
         {
             GraphNode* current = stack.pop();
-            GraphNode *current = stack.pop();
-            cout << endl
-                 << "Current: " << current->getX() << ", " << current->getY() << endl;
             current->setCar(true);
             this_thread::sleep_for(chrono::milliseconds(500));
             system("cls");

@@ -1,7 +1,7 @@
 // Sumeed_Jawad_Kanwar_22i2651
 // Maleek_Hussain_Ali_22i1526
 
-#include "Graph.h"
+#include "Graph.h" // Include necessary header files for Graph and Menu
 #include <iostream>
 #include <string>
 #include "Menu.h"
@@ -15,10 +15,10 @@ int main()
     char choice;
     do
     {
-        system("cls");
-        logo();
-        menu();
-        Maze maze;
+        system("cls"); // Clear the console screen
+        logo();        // Display the logo
+        menu();        // Display the main menu
+        Maze maze;     // Create an instance of the Maze class
         cout << "Enter your choice: ";
         cin >> choice;
         cout << endl;
@@ -28,9 +28,9 @@ int main()
             char mode;
             do
             {
-                system("cls");
-                logo();
-                modes();
+                system("cls"); // Clear the console screen
+                logo();        // Display the logo
+                modes();       // Display the maze modes menu
                 cout << "Enter your choice: ";
                 cin >> mode;
                 switch (mode)
@@ -70,7 +70,7 @@ int main()
                     // Maze maze;
                     int rows, columns;
                     cout << endl
-                        << "Enter the size of matrix: ";
+                         << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
@@ -82,7 +82,7 @@ int main()
                 {
                     int rows, columns;
                     cout << endl
-                        << "Enter the size of matrix: ";
+                         << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
@@ -120,7 +120,7 @@ int main()
             break;
         case '2':
             logo();
-            instructions();
+            instructions(); // Display the instructions menu
             char instructions;
             do
             {

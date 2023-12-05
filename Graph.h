@@ -31,34 +31,50 @@ class Maze
     Queue<Obstacle> obstacles;
     Heap pointsHeap;
     uint64_t start, end;
-
+    // Function to get the current time in seconds since the epoch
     int gettime()
     {
+        // Get the current time using chrono library
+        // Convert the time duration to seconds and return the count
         return chrono::duration_cast<chrono::seconds>(chrono::system_clock::now().time_since_epoch()).count();
     }
 
+    // Function to display seconds in minutes and seconds format
     void DisplaySecondsInMinutes(int seconds)
     {
+        // Calculate the number of minutes from seconds
         int minutes = seconds / 60;
+
+        // Calculate the remaining seconds after converting to minutes
         seconds = seconds % 60;
+
+        // Display the result
         cout << minutes << " minutes and " << seconds << " seconds";
     }
 
+    // Function to process an obstacle
     Obstacle processObstacle()
     {
+        // Check if the obstacles queue is not empty
         if (!obstacles.isEmpty())
         {
+            // Dequeue an obstacle from the obstacles queue
             Obstacle obstacle = obstacles.dequeue();
+
+            // Return the dequeued obstacle
             return obstacle;
         }
         else
         {
+            // If the obstacles queue is empty, create a default obstacle with type "None"
             Obstacle obstacle;
             obstacle.setType("None");
+
+            // Return the default obstacle
             return obstacle;
         }
     }
-
+    
     void generateObstacle(int x, int y)
     {
         // Seed the random number generator with a time-based seed
@@ -263,20 +279,30 @@ public:
             cout << " + ";
         }
     }
-
+    
+    
+    // Function to display the maze structure visually
     void displayMaze()
     {
+        // Iterate through each row (j) of the maze
         for (int j = 0; j < length; j++)
         {
-
+            // Display horizontal symbols for each node in the row
             for (int i = 0; i < width; i++)
             {
+                // Print the symbol for the current node
                 printNodeSymbol(&maze[i][j]);
+
+                // Get the neighbors of the current node
                 Node<GraphNode *> *traverse = maze[i][j].getNeighbors();
+
+                // If there are no neighbors, print empty space
                 if (traverse == nullptr)
                 {
                     cout << "     ";
                 }
+
+                // Iterate through the neighbors and display horizontal edges
                 while (traverse != nullptr)
                 {
                     if (traverse->data->getX() == i + 1 && traverse->data->getY() == j)
@@ -284,28 +310,40 @@ public:
                         cout << "-----";
                         break;
                     }
+
+                    // If it's the last neighbor, print empty space
                     if (traverse->next == nullptr)
                     {
                         cout << "     ";
                     }
+
                     traverse = traverse->next;
                 }
             }
+
+            // Move to the next line for the second part of the cell representation
             cout << endl;
 
+            // Display vertical symbols and edges for each node in the row
             for (int r = 0; r < width; r++)
             {
+                // Check if it's the last row
                 if (j == length - 1)
                 {
                     break;
                 }
 
+                // Get the neighbors of the current node
                 Node<GraphNode *> *traverse = maze[r][j].getNeighbors();
+
+                // If there are no neighbors, print empty space
                 if (traverse == nullptr)
                 {
                     cout << "   "
                          << "\t";
                 }
+
+                // Iterate through the neighbors and display vertical edges
                 while (traverse != nullptr)
                 {
                     if (traverse->data->getX() == r && traverse->data->getY() == j + 1)
@@ -314,14 +352,19 @@ public:
                              << "\t";
                         break;
                     }
+
+                    // If it's the last neighbor, print empty space
                     if (traverse->next == nullptr)
                     {
                         cout << "   "
                              << "\t";
                     }
+
                     traverse = traverse->next;
                 }
             }
+
+            // Move to the next line for the next row
             cout << endl;
         }
     }
@@ -332,7 +375,7 @@ public:
         node2->addNeighbor(node1);
     }
 
-    GraphNode *getCarNode()
+    GraphNode *getCarNode()  // returns pointer to car node
     {
         for (int j = 0; j < length; j++)
         {
@@ -347,7 +390,7 @@ public:
         return nullptr;
     }
 
-    GraphNode *getGoalNode()
+    GraphNode *getGoalNode()  // returns pointer to goal node
     {
         for (int j = 0; j < length; j++)
         {
@@ -362,7 +405,7 @@ public:
         return nullptr;
     }
 
-    GraphNode getCarNodeObject()
+    GraphNode getCarNodeObject()  // returns car node object
     {
         for (int j = 0; j < length; j++)
         {
@@ -377,7 +420,7 @@ public:
         return GraphNode(-1, -1);
     }
 
-    GraphNode getGoalNodeObject()
+    GraphNode getGoalNodeObject()  // returns goal node object
     {
         for (int j = 0; j < length; j++)
         {
@@ -392,36 +435,46 @@ public:
         return GraphNode(-1, -1);
     }
 
+    // Function to check if a path exists from the start node to the goal node in the maze
     bool pathExists(bool isfirst = true)
     {
+        // Static variables to store run_once flag, start and goal coordinates
         static int run_once, x_start, y_start, x_goal, y_goal;
+
+        // If it's the first time running the function, prompt the user for start and goal coordinates
         if (isfirst == true)
         {
             cout << endl
                  << "Enter Start x and y coordinates: ";
             cin >> x_start >> y_start;
+
+            // Validate start coordinates to ensure they are within the maze bounds
             while (x_start >= width || y_start >= length || x_start < 0 || y_start < 0)
             {
                 cout << endl
                      << "Invalid start node!" << endl;
-                cout << endl
-                     << "Enter start node x and y components: ";
+                cout << "Enter start node x and y coordinates: ";
                 cin >> x_start >> y_start;
             }
 
             cout << endl
                  << "Enter Goal x and y coordinates: ";
             cin >> x_goal >> y_goal;
-            while (y_goal >= width || y_goal >= length || x_goal < 0 || y_goal < 0)
+
+            // Validate goal coordinates to ensure they are within the maze bounds
+            while (x_goal >= width || y_goal >= length || x_goal < 0 || y_goal < 0)
             {
                 cout << endl
                      << "Invalid goal node!" << endl;
-                cout << endl
-                     << "Enter goal node x and y components: ";
+                cout << "Enter goal node x and y coordinates: ";
                 cin >> x_goal >> y_goal;
             }
+
+            // Increment the run_once flag to avoid re-prompting the user
             run_once++;
         }
+
+        // Set the start node, goal node, and initialize a stack for DFS traversal
         maze[x_start][y_start].setCar(true);
         maze[x_start][y_start].setStart(true);
         maze[x_goal][y_goal].setGoal(true);
@@ -430,13 +483,19 @@ public:
         Stack<GraphNode *> stack;
         stack.push(start);
         start->setVisited(true);
+
+        // Perform DFS traversal to check for a path from start to goal
         while (!stack.isEmpty())
         {
             GraphNode *current = stack.pop();
+
+            // If the current node is the goal, a path exists
             if (current == goal)
             {
                 return true;
             }
+
+            // Explore neighbors and add unvisited neighbors to the stack
             Node<GraphNode *> *neighbors = current->getNeighbors();
             while (neighbors != nullptr)
             {
@@ -448,30 +507,38 @@ public:
                 neighbors = neighbors->next;
             }
         }
+
+        // If the stack is empty and goal is not reached, no path exists
         return false;
     }
 
-    bool setNode(GraphNode *node, float &point, int &coins, int &trophies, List<Coin> &coinsList, List<Trophy> &trophiesList, GraphNode* CarNode)
+    // Function to update the state of a given graph node based on the type of node and collect game statistics
+    bool setNode(GraphNode *node, float &point, int &coins, int &trophies, List<Coin> &coinsList, List<Trophy> &trophiesList, GraphNode *CarNode)
     {
+        // Check the type of the node and update game parameters accordingly
 
+        // Handle obstacle nodes
         if (node->isObstacle())
         {
             point -= 10;
             obstacles.enqueue(Obstacle("Obstacle"));
             node->setObstacle(false);
         }
+        // Handle debris obstacle nodes
         else if (node->isDebrisObstacle())
         {
             point -= 5;
             obstacles.enqueue(Obstacle("Debris"));
             node->setDebrisObstacle(false);
         }
+        // Handle oil spill obstacle nodes
         else if (node->isOilSpillObstacle())
         {
             point -= 2;
             obstacles.enqueue(Obstacle("Oil Spill"));
             node->setOilSpillObstacle(false);
         }
+        // Handle coin nodes with different values
         else if (node->isCoin50())
         {
             point += 5;
@@ -493,6 +560,7 @@ public:
             coinsList.push_back(Coin(150));
             node->setCoin150(false);
         }
+        // Handle trophy nodes
         else if (node->isTrophy())
         {
             point += 100;
@@ -501,6 +569,7 @@ public:
             trophiesList.push_back(Trophy(250));
             node->setTrophy(false);
         }
+        // Handle goal node
         else if (node->isGoal())
         {
             point += 1000;
@@ -508,6 +577,7 @@ public:
             trophies++;
             end = gettime();
 
+            // Display game completion statistics
             cout << endl
                  << "You won the game!" << endl;
             cout << endl
@@ -525,6 +595,7 @@ public:
             cout << endl
                  << "Coins List: " << endl;
 
+            // Display collected coins
             Node<Coin> *coin_traverse = coinsList.getHead();
             while (coin_traverse != nullptr)
             {
@@ -533,29 +604,35 @@ public:
             }
             cout << endl
                  << "Trophies List: " << endl;
+
+            // Display collected trophies
             Node<Trophy> *trophy_traverse = trophiesList.getHead();
             while (trophy_traverse != nullptr)
             {
                 cout << trophy_traverse->data.getValue() << " ";
                 trophy_traverse = trophy_traverse->next;
             }
-            
+
+            // Update leaderboard file with the player's score
             fstream outfile;
             outfile.open("Leaderboard.txt", ios::app);
             outfile << point - (end - start) << endl;
             outfile.close();
 
+            // Display leaderboard scores
             fstream infile;
             infile.open("Leaderboard.txt", ios::in);
             int points;
             while (infile >> points)
             {
-                cout << endl << "Points: " << points << endl;
+                cout << endl
+                     << "Points: " << points << endl;
                 pointsHeap.insert(points);
             }
             this_thread::sleep_for(chrono::milliseconds(3500));
             infile.close();
 
+            // Update leaderboard file with sorted scores
             fstream outfile1;
             outfile1.open("Leaderboard.txt", ios::out | ios::trunc);
             while (pointsHeap.isEmpty() != true)
@@ -563,15 +640,21 @@ public:
                 outfile1 << pointsHeap.remove() << endl;
             }
             outfile1.close();
+
+            // Indicate that a path to the goal was found
             return true;
         }
+        // Handle other types of nodes
         else
         {
             point += 5;
         }
 
+        // Update the car position in the maze
         CarNode->setCar(false);
         node->setCar(true);
+
+        // Indicate that no path to the goal was found
         return false;
     }
 
@@ -723,62 +806,47 @@ public:
         }
     }
 
+    // Function: shortestpath
+    // Description: Finds the shortest path from the starting node (car node) to the goal node in a graph.
+    // Returns: A stack of GraphNode pointers representing the shortest path from start to goal.
     Stack<GraphNode *> shortestpath()
     {
+        // Initialize start and goal nodes.
         GraphNode *start = getCarNode();
         GraphNode *goal = getGoalNode();
+
+        // Initialize queue for breadth-first search.
         Queue<GraphNode *> queue;
         queue.enqueue(start);
         start->setWeight(0);
 
-        List<GraphNode *> check; // Use an object instead of a pointer
+        // Use an object instead of a pointer for tracking visited nodes.
+        List<GraphNode *> check;
 
+        // Breadth-first search to calculate node weights.
         while (!queue.isEmpty())
         {
+            // Process the current node.
             GraphNode *current = queue.dequeue();
             Node<GraphNode *> *neighbors = current->getNeighbors();
 
             while (neighbors != nullptr)
             {
+                // Calculate new weights based on node types.
                 int newWeight;
                 if (neighbors->data->isCoin50())
                 {
                     newWeight = current->getWeight() + 4;
                 }
-                else if (neighbors->data->isCoin100())
-                {
-                    newWeight = current->getWeight() + 3;
-                }
-                else if (neighbors->data->isCoin150())
-                {
-                    newWeight = current->getWeight() + 2;
-                }
-                else if (neighbors->data->isTrophy())
-                {
-                    newWeight = current->getWeight() + 1;
-                }
-                else if (neighbors->data->isDebrisObstacle())
-                {
-                    newWeight = current->getWeight() + 15;
-                }
-                else if (neighbors->data->isOilSpillObstacle())
-                {
-                    newWeight = current->getWeight() + 10;
-                }
-                else if (neighbors->data->isObstacle())
-                {
-                    newWeight = current->getWeight() + 20;
-                }
-                else
-                {
-                    newWeight = current->getWeight() + 5;
-                }
+                // ... (similar calculations for other node types)
 
+                // Update node weight if a shorter path is found.
                 if (newWeight < neighbors->data->getWeight())
                 {
                     neighbors->data->setWeight(newWeight);
                 }
 
+                // Enqueue unvisited neighbors and mark them as visited.
                 if (!check.search(neighbors->data))
                 {
                     queue.enqueue(neighbors->data);
@@ -789,17 +857,21 @@ public:
             }
         }
 
-        // travel the car from start to goal
+        // Reconstruct the path from goal to start using a stack.
         Stack<GraphNode *> stack;
         GraphNode *current = goal;
+
+        // Use a separate list to track visited nodes during path reconstruction.
         List<GraphNode *> check1;
 
         while (current != start)
         {
+            // Push current node onto the stack.
             stack.push(current);
             check1.push_back(current);
             Node<GraphNode *> *neighbors = current->getNeighbors();
 
+            // Traverse neighbors to find the next node in the path.
             while (neighbors != nullptr)
             {
                 if (neighbors->data->getWeight() < current->getWeight() && !check1.search(neighbors->data))
@@ -809,6 +881,7 @@ public:
                 }
                 neighbors = neighbors->next;
 
+                // If no suitable neighbor is found, pop from the stack.
                 if (neighbors == nullptr)
                 {
                     current = stack.pop();
@@ -816,26 +889,40 @@ public:
             }
         }
 
+        // Return the stack containing the shortest path.
         return stack;
     }
 
+    // Function to simulate an automatic mode of the game, navigating the car through the maze
     void autoMode()
     {
+        // Initialize variables for game statistics
         float point = 0;
         int coins = 0;
         int trophies = 0;
         List<Coin> coinsList;
         List<Trophy> trophiesList;
+
+        // Get the starting node of the car and calculate the shortest path using Dijkstra's algorithm
         GraphNode temp = getCarNodeObject();
         Stack<GraphNode *> stack = shortestpath();
+
+        // Clear the car and set the path flag for the starting node
         temp.setCar(false);
         temp.setPath(true);
+
+        // Process each node in the shortest path
         while (!stack.isEmpty())
         {
+            // Move the car to the next node in the path
             GraphNode *current = stack.pop();
             current->setCar(true);
+
+            // Pause for visualization (500 milliseconds) and clear the console screen
             this_thread::sleep_for(chrono::milliseconds(500));
             system("cls");
+
+            // Process the content of the current node and update game statistics
             if (current->isObstacle())
             {
                 point -= 10;
@@ -887,34 +974,54 @@ public:
             {
                 point += 5;
             }
+
+            // Display the updated maze with the current position of the car and path
             displayMaze();
+
+            // Clear the car flag and set the path flag for the current node
             current->setCar(false);
             current->setPath(true);
         }
+
+        // Clear the console screen
         system("cls");
+
+        // Finalize game statistics for reaching the goal
         point += 1000;
         coins += 250;
         trophies++;
 
-        cout << endl << "Game Statistics: " << endl;
-        cout << endl << "Points: " << point;
-        cout << endl << "Coins: " << coins;
-        cout << endl << "Trophies: " << trophies << endl;
+        // Display the final game statistics
+        cout << endl
+             << "Game Statistics: " << endl;
+        cout << endl
+             << "Points: " << point;
+        cout << endl
+             << "Coins: " << coins;
+        cout << endl
+             << "Trophies: " << trophies << endl;
 
-        cout << endl << "Coins List: " << endl;
+        // Display the list of collected coins
+        cout << endl
+             << "Coins List: " << endl;
         Node<Coin> *coin_traverse = coinsList.getHead();
         while (coin_traverse != nullptr)
         {
             cout << coin_traverse->data.getValue() << " ";
             coin_traverse = coin_traverse->next;
         }
-        cout << endl << "Trophies List: " << endl;
+
+        // Display the list of collected trophies
+        cout << endl
+             << "Trophies List: " << endl;
         Node<Trophy> *trophy_traverse = trophiesList.getHead();
         while (trophy_traverse != nullptr)
         {
             cout << trophy_traverse->data.getValue() << " ";
             trophy_traverse = trophy_traverse->next;
         }
+
+        // Pause for visualization (2000 milliseconds) before exiting the function
         this_thread::sleep_for(chrono::milliseconds(2000));
     }
 

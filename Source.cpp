@@ -99,14 +99,18 @@ int main()
                     break;
                 }
                 case '3':
+                {
                     system("cls");
                     logo();
                     maze.LeaderBoard();
                     Sleep(1000);
                     break;
+                }
                 case '4':
+                {
                     cout << "You chose to return!" << endl;
                     break;
+                }
                 default:
                     cout << "Invalid choice!" << endl;
                     break;

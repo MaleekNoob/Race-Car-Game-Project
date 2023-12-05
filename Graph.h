@@ -624,8 +624,6 @@ public:
             int points;
             while (infile >> points)
             {
-                cout << endl
-                     << "Points: " << points << endl;
                 pointsHeap.insert(points);
             }
             this_thread::sleep_for(chrono::milliseconds(3500));

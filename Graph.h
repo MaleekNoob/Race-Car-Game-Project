@@ -237,7 +237,7 @@ public:
         }
         else if (mazeNode->isOilSpillObstacle())
         {
-            cout << RED << " S " << RESET;
+            cout << RED << " OS" << RESET;
         }
         else if (mazeNode->isCoin50())
         {
@@ -469,12 +469,9 @@ public:
         {
             GraphNode *carNode = getCarNode();
             // Display carNode neighbors
-            cout << endl
-                 << "Neighbors: ";
             Node<GraphNode *> *neighbors = carNode->getNeighbors();
             while (neighbors != nullptr)
             {
-                cout << "(" << neighbors->data->getX() << ", " << neighbors->data->getY() << ") ";
                 neighbors = neighbors->next;
             }
             key = _getch(); // Get the pressed key
@@ -1302,6 +1299,7 @@ public:
             current->setCar(false);
             current->setPath(true);
         }
+        this_thread::sleep_for(chrono::milliseconds(1000));
         system("cls");
         point += 1000;
         coins += 250;

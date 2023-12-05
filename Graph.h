@@ -237,7 +237,7 @@ public:
         }
         else if (mazeNode->isOilSpillObstacle())
         {
-            cout << RED << " OS" << RESET;
+            cout << RED << " S " << RESET;
         }
         else if (mazeNode->isCoin50())
         {
@@ -395,26 +395,26 @@ public:
         if (isfirst == true)
         {
             cout << endl
-                << "Enter Start x and y coordinates: ";
+                 << "Enter Start x and y coordinates: ";
             cin >> x_start >> y_start;
             while (x_start >= width || y_start >= length || x_start < 0 || y_start < 0)
             {
                 cout << endl
-                    << "Invalid start node!" << endl;
+                     << "Invalid start node!" << endl;
                 cout << endl
-                    << "Enter start node x and y components: ";
+                     << "Enter start node x and y components: ";
                 cin >> x_start >> y_start;
             }
 
             cout << endl
-                << "Enter Goal x and y coordinates: ";
+                 << "Enter Goal x and y coordinates: ";
             cin >> x_goal >> y_goal;
             while (y_goal >= width || y_goal >= length || x_goal < 0 || y_goal < 0)
             {
                 cout << endl
-                    << "Invalid goal node!" << endl;
+                     << "Invalid goal node!" << endl;
                 cout << endl
-                    << "Enter goal node x and y components: ";
+                     << "Enter goal node x and y components: ";
                 cin >> x_goal >> y_goal;
             }
             run_once++;
@@ -422,19 +422,19 @@ public:
         maze[x_start][y_start].setCar(true);
         maze[x_start][y_start].setStart(true);
         maze[x_goal][y_goal].setGoal(true);
-        GraphNode* start = &maze[x_start][y_start];
-        GraphNode* goal = &maze[x_goal][y_goal];
-        Stack<GraphNode*> stack;
+        GraphNode *start = &maze[x_start][y_start];
+        GraphNode *goal = &maze[x_goal][y_goal];
+        Stack<GraphNode *> stack;
         stack.push(start);
         start->setVisited(true);
         while (!stack.isEmpty())
         {
-            GraphNode* current = stack.pop();
+            GraphNode *current = stack.pop();
             if (current == goal)
             {
                 return true;
             }
-            Node<GraphNode*>* neighbors = current->getNeighbors();
+            Node<GraphNode *> *neighbors = current->getNeighbors();
             while (neighbors != nullptr)
             {
                 if (!neighbors->data->isVisited())
@@ -457,8 +457,9 @@ public:
         List<Coin> coinsList;
         List<Trophy> trophiesList;
         bool isfirst = true;
-        
-        while (!pathExists(isfirst)) {
+
+        while (!pathExists(isfirst))
+        {
             generateMaze(width, length);
             isfirst = false;
         }
@@ -469,9 +470,12 @@ public:
         {
             GraphNode *carNode = getCarNode();
             // Display carNode neighbors
+            cout << endl
+                 << "Neighbors: ";
             Node<GraphNode *> *neighbors = carNode->getNeighbors();
             while (neighbors != nullptr)
             {
+                cout << "(" << neighbors->data->getX() << ", " << neighbors->data->getY() << ") ";
                 neighbors = neighbors->next;
             }
             key = _getch(); // Get the pressed key
@@ -857,7 +861,7 @@ public:
                                  << "Coins: " << coins;
                             cout << endl
                                  << "Trophies: " << trophies << endl;
-                            cout << endl 
+                            cout << endl
                                  << "Total time taken: ";
                             DisplaySecondsInMinutes(end - start);
 
@@ -1001,13 +1005,13 @@ public:
                             cout << endl
                                  << "Game Statistics: " << endl;
                             cout << endl
-                                 << "Points: " << point - (end -  start);
+                                 << "Points: " << point - (end - start);
                             pointsHeap.insert(point - (end - start));
                             cout << endl
-                                << "Coins: " << coins;
+                                 << "Coins: " << coins;
                             cout << endl
                                  << "Trophies: " << trophies << endl;
-                            cout << endl 
+                            cout << endl
                                  << "Total time taken: ";
                             DisplaySecondsInMinutes(end - start);
                             cout << endl
@@ -1084,7 +1088,8 @@ public:
                     neighbors = neighbors->next;
                 }
             }
-            else if (key == 'p') {
+            else if (key == 'p')
+            {
                 int choice = 0;
                 while (choice != 1)
                 {
@@ -1096,7 +1101,8 @@ public:
                          << "2. Exit";
                     cin >> choice;
 
-                    if (choice == 2) {
+                    if (choice == 2)
+                    {
                         return;
                     }
                 }
@@ -1117,17 +1123,16 @@ public:
 
     void printmazeweight()
     {
-		for (int j = 0; j < length; j++)
-		{
+        for (int j = 0; j < length; j++)
+        {
 
-			for (int i = 0; i < width; i++)
-			{
-				cout << maze[i][j].getWeight() << " ";
-			}
-			cout << endl;
-		}
+            for (int i = 0; i < width; i++)
+            {
+                cout << maze[i][j].getWeight() << " ";
+            }
+            cout << endl;
+        }
     }
-    
 
     Stack<GraphNode *> shortestpath()
     {
@@ -1196,19 +1201,20 @@ public:
         }
 
         // travel the car from start to goal
-        Stack<GraphNode*> stack;
-        GraphNode* current = goal;
-        List<GraphNode*> check1;
+        Stack<GraphNode *> stack;
+        GraphNode *current = goal;
+        List<GraphNode *> check1;
 
         while (current != start)
         {
             stack.push(current);
             check1.push_back(current);
-            Node<GraphNode*>* neighbors = current->getNeighbors();
+            Node<GraphNode *> *neighbors = current->getNeighbors();
 
             while (neighbors != nullptr)
             {
-                cout << endl << "\tNeighbor: " << neighbors->data->getX() << ", " << neighbors->data->getY() << endl;
+                cout << endl
+                     << "\tNeighbor: " << neighbors->data->getX() << ", " << neighbors->data->getY() << endl;
                 if (neighbors->data->getWeight() < current->getWeight() && !check1.search(neighbors->data))
                 {
                     current = neighbors->data;
@@ -1218,8 +1224,8 @@ public:
 
                 if (neighbors == nullptr)
                 {
-					current = stack.pop();
-				}
+                    current = stack.pop();
+                }
             }
         }
 
@@ -1234,13 +1240,14 @@ public:
         List<Coin> coinsList;
         List<Trophy> trophiesList;
         GraphNode temp = getCarNodeObject();
-        Stack<GraphNode*> stack = shortestpath();
-        cout << endl << "Path: " << endl;
+        Stack<GraphNode *> stack = shortestpath();
+        cout << endl
+             << "Path: " << endl;
         temp.setCar(false);
         temp.setPath(true);
         while (!stack.isEmpty())
         {
-            GraphNode* current = stack.pop();
+            GraphNode *current = stack.pop();
             current->setCar(true);
             this_thread::sleep_for(chrono::milliseconds(500));
             system("cls");
@@ -1299,34 +1306,33 @@ public:
             current->setCar(false);
             current->setPath(true);
         }
-        this_thread::sleep_for(chrono::milliseconds(1000));
         system("cls");
         point += 1000;
         coins += 250;
         trophies++;
 
         cout << endl
-            << "You won the game!" << endl;
+             << "You won the game!" << endl;
         cout << endl
-            << "Game Statistics: " << endl;
+             << "Game Statistics: " << endl;
         cout << endl
-            << "Points: " << point;
+             << "Points: " << point;
         cout << endl
-            << "Coins: " << coins;
+             << "Coins: " << coins;
         cout << endl
-            << "Trophies: " << trophies << endl;
+             << "Trophies: " << trophies << endl;
 
         cout << endl
-            << "Coins List: " << endl;
-        Node<Coin>* coin_traverse = coinsList.getHead();
+             << "Coins List: " << endl;
+        Node<Coin> *coin_traverse = coinsList.getHead();
         while (coin_traverse != nullptr)
         {
             cout << coin_traverse->data.getValue() << " ";
             coin_traverse = coin_traverse->next;
         }
         cout << endl
-            << "Trophies List: " << endl;
-        Node<Trophy>* trophy_traverse = trophiesList.getHead();
+             << "Trophies List: " << endl;
+        Node<Trophy> *trophy_traverse = trophiesList.getHead();
         while (trophy_traverse != nullptr)
         {
             cout << trophy_traverse->data.getValue() << " ";
@@ -1357,10 +1363,10 @@ public:
         deleteMaze();
     }
 
-    void LeaderBoard() {
+    void LeaderBoard()
+    {
         cout << endl
              << "Leaderboard: " << endl;
         pointsHeap.display();
     }
-
 };

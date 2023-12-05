@@ -1,24 +1,29 @@
 #include "List.h"
 
-class Heap {
+class Heap
+{
 private:
-    int* heapArray;
+    int *heapArray;
     int maxSize;
     int currentSize;
 
 public:
-    Heap() {
+    Heap()
+    {
         maxSize = 50;
         currentSize = 0;
         heapArray = new int[maxSize];
     }
 
-    ~Heap() {
+    ~Heap()
+    {
         delete[] heapArray;
     }
 
-    void insert(int value) {
-        if (currentSize == maxSize) {
+    void insert(int value)
+    {
+        if (currentSize == maxSize)
+        {
             cout << "Heap is full. Cannot insert more elements." << endl;
             return;
         }
@@ -27,7 +32,8 @@ public:
         int index = currentSize;
         int parentIndex = (index - 1) / 2;
 
-        while (index > 0 && heapArray[index] > heapArray[parentIndex]) {
+        while (index > 0 && heapArray[index] > heapArray[parentIndex])
+        {
             swap(heapArray[index], heapArray[parentIndex]);
             index = parentIndex;
             parentIndex = (index - 1) / 2;
@@ -36,8 +42,10 @@ public:
         currentSize++;
     }
 
-    int remove() {
-        if (currentSize == 0) {
+    int remove()
+    {
+        if (currentSize == 0)
+        {
             cout << "Heap is empty. Cannot remove elements." << endl;
             return -1;
         }
@@ -50,14 +58,17 @@ public:
         int leftChildIndex = 2 * index + 1;
         int rightChildIndex = 2 * index + 2;
 
-        while (leftChildIndex < currentSize) {
+        while (leftChildIndex < currentSize)
+        {
             int maxIndex = leftChildIndex;
 
-            if (rightChildIndex < currentSize && heapArray[rightChildIndex] > heapArray[leftChildIndex]) {
+            if (rightChildIndex < currentSize && heapArray[rightChildIndex] > heapArray[leftChildIndex])
+            {
                 maxIndex = rightChildIndex;
             }
 
-            if (heapArray[index] >= heapArray[maxIndex]) {
+            if (heapArray[index] >= heapArray[maxIndex])
+            {
                 break;
             }
 
@@ -70,26 +81,32 @@ public:
         return root;
     }
 
-    void display() {
-        if (currentSize == 0) {
+    void display()
+    {
+        if (currentSize == 0)
+        {
             cout << "Heap is empty." << endl;
             return;
         }
 
         cout << "Heap elements: ";
-        for (int i = 0; i < currentSize; i++) {
+        for (int i = 0; i < currentSize; i++)
+        {
             cout << heapArray[i] << endl;
         }
         cout << endl;
     }
 
-    void insertInFile(fstream& file) {
-        if (currentSize == 0) {
+    void insertInFile(fstream &file)
+    {
+        if (currentSize == 0)
+        {
             cout << "Heap is empty. Cannot insert elements in file." << endl;
             return;
         }
 
-        for (int i = 0; i < currentSize; i++) {
+        for (int i = 0; i < currentSize; i++)
+        {
             file << heapArray[i] << endl;
         }
     }

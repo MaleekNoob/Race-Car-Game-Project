@@ -1,8 +1,7 @@
 #include "Graph.h"
 #include <iostream>
 #include <string>
-#include "Menu.h"
-#include <Windows.h>
+// #include <unistd.h>
 #include <stdlib.h>
 
 using namespace std;
@@ -12,7 +11,6 @@ int main()
     char choice;
     do
     {
-        system("cls");
         logo();
         menu();
         Maze maze;
@@ -77,10 +75,10 @@ int main()
                 }
                 case '2':
                 {
-                    system("cls");
-                    Maze maze;
+                    cout << "You chose to play the automatic mode!" << endl;
                     int rows, columns;
-                    cout << endl << "Enter the size of matrix: ";
+                    cout << endl
+                         << "Enter the size of matrix: ";
                     cin >> rows;
                     columns = rows;
                     maze.generateMaze(rows, columns);
@@ -100,6 +98,7 @@ int main()
                     maze.LeaderBoard();
                     break;
                 case '4':
+                    cout << "You chose to return!" << endl;
                     break;
                 default:
                     cout << "Invalid choice!" << endl;
@@ -109,7 +108,6 @@ int main()
 
             break;
         case '2':
-            system("cls");
             logo();
             instructions();
             char instructions;
@@ -128,11 +126,9 @@ int main()
             break;
         case '3':
             cout << "Thank You!" << endl;
-            Sleep(1000);
             break;
         default:
             cout << "Invalid choice!" << endl;
-            Sleep(1000);
             break;
         }
     } while (choice != '3');

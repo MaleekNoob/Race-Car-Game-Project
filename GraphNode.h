@@ -4,7 +4,7 @@ class GraphNode
 {
     int x;
     int y;
-    List<GraphNode*> neighbors; /* list to store GraphNode's neighbors */
+    List<GraphNode *> neighbors; /* list to store GraphNode's neighbors */
     bool Car;                    /* true if car is on this Node */
     bool Goal;                   /* true if this Node is the goal */
     bool Start;                  /* true if this Node is the start */
@@ -24,7 +24,7 @@ public:
     {
         x = -1;
         y = -1;
-        neighbors = List<GraphNode*>();
+        neighbors = List<GraphNode *>();
         Car = false;
         Goal = false;
         Start = false;
@@ -44,7 +44,7 @@ public:
     {
         this->x = x;
         this->y = y;
-        neighbors = List<GraphNode*>();
+        neighbors = List<GraphNode *>();
         Car = false;
         Goal = false;
         Start = false;
@@ -60,12 +60,12 @@ public:
         path = false;
     }
 
-    GraphNode(const GraphNode& other)
+    GraphNode(const GraphNode &other)
     {
         x = other.x;
         y = other.y;
-        neighbors = List<GraphNode*>();
-        const Node<GraphNode*>* current = other.neighbors.getHead();
+        neighbors = List<GraphNode *>();
+        const Node<GraphNode *> *current = other.neighbors.getHead();
         while (current != nullptr)
         {
             neighbors.push_back(current->data);
@@ -91,12 +91,12 @@ public:
         neighbors.display();
     }
 
-    void addNeighbor(GraphNode* node)
+    void addNeighbor(GraphNode *node)
     {
         neighbors.push_back(node);
     }
 
-    void removeNeighbor(GraphNode* node)
+    void removeNeighbor(GraphNode *node)
     {
         neighbors.remove(node);
     }
@@ -245,12 +245,12 @@ public:
         path = isPath;
     }
 
-    Node<GraphNode*>* getNeighbors()
+    Node<GraphNode *> *getNeighbors()
     {
         return neighbors.getHead();
     }
 
-    bool operator==(GraphNode& node)
+    bool operator==(GraphNode &node)
     {
         return x == node.getX() && y == node.getY();
     }
